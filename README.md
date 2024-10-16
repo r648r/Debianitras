@@ -33,6 +33,12 @@ AcceptEnv LANG LC_*
 Subsystem       sftp    /usr/lib/openssh/sftp-server
 ```
 
+/etc/sudoers
+```
+adduser raphzer -G sudo
+```
+`%sudo ALL=NOPASSWD: ALL`
+
 /etc/banner
 ```
  __________________
