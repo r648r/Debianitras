@@ -3,13 +3,28 @@ alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.1
 
 
 # Debianitras
-Remove log 
-sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}
+```
+# Define the path to your custom alias file
+ALIAS_FILE="$HOME/.zsh_aliases_custom"
 
-Alias
-apt install nala
-alias apt="nala"
-alias sudo="sudo "
+# Create or overwrite the alias file with your current aliases
+cat <<EOL > $ALIAS_FILE
+# Custom aliases
+alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
+alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
+alias apt='nala'
+alias sudo='sudo '
+EOL
+
+# Check if the alias file is already sourced in .zshrc
+if ! grep -q "source $ALIAS_FILE" "$HOME/.zshrc"; then
+  # If not, add the source command to .zshrc
+  echo "source $ALIAS_FILE" >> "$HOME/.zshrc"
+fi
+
+# Reload .zshrc to apply the changes immediately
+source "$HOME/.zshrc"
+```
 
 /etc/systemd/system/update-issue-ip.service
 ```
