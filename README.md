@@ -1,4 +1,15 @@
+# kali
+alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
+
+
 # Debianitras
+Remove log 
+sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}
+
+Alias
+apt install nala
+alias apt="nala"
+alias sudo="sudo "
 
 /etc/systemd/system/update-issue-ip.service
 ```
