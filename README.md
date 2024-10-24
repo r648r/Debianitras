@@ -2,6 +2,14 @@
 alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
 
 
+```
+s $(go env GOPATH)/bin
+mkdir ~/go-binaries-export
+cp $(go env GOPATH)/bin/* ~/go-binaries-export/
+tar -czvf go-binaries-export.tar.gz -C ~/go-binaries-export .
+
+```
+
 # Debianitras
 ```
 # Define the path to your custom alias file
