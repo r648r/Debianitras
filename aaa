@@ -1,17 +1,27 @@
 <VirtualHost *:8081>
-    ServerAdmin admin@example.com
+    ServerAdmin admin@patate.com
     DocumentRoot /var/www/html
 
-    # Redirection globale
+    # Définir un ServerName pour éviter les avertissements
+    ServerName 127.0.0.1
+
+    # Activer la réécriture globale pour rediriger tout vers la page 403
     RewriteEngine On
     RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
     RewriteRule ^.*$ /api-internal-error.html [R=403,L]
 
+    # Configuration du répertoire
     <Directory /var/www/html>
         Options -Indexes +FollowSymLinks
         AllowOverride None
         Require all granted
     </Directory>
 
+    # Document d'erreur pour le statut 403
     ErrorDocument 403 /api-internal-error.html
+
+    # Logs pour débogage
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-8081.log
+    CustomLog ${APACHE_LOG_DIR}/access-8081.log combined
 </VirtualHost>
