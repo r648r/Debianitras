@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Internal Error</title>
+</head>
+<body>
+    <h1>API Internal Error</h1>
+    <p>An internal API error occurred. Please contact the administrator with the following token for further assistance:</p>
+    <p><strong>Error Token:</strong> 9c3f9da7-48a3-4023-a6b7-95ff1baf13f2</p>
+</body>
+</html>
