@@ -1,0 +1,15 @@
+<VirtualHost *:8081>
+    ServerAdmin admin@example.com
+    DocumentRoot /var/www/html/unauthorized
+    ErrorDocument 403 /403.html
+
+    <Directory /var/www/html/unauthorized>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    # Forcer le statut 403
+    RewriteEngine On
+    RewriteRule ^.*$ - [R=403]
+</VirtualHost>
