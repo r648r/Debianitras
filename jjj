@@ -20,13 +20,16 @@
     </IfModule>
 
     # Activer la réécriture pour diriger toutes les requêtes vers l'erreur 500
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-        RewriteEngine On
-        RewriteRule ^.*$ /symfony-error.html [R=500,L]
-    </Directory>
+    sudo nano /etc/apache2/sites-available/000-default.conf
+
+<Directory /var/www/html>
+    Options -Indexes +FollowSymLinks
+    AllowOverride None
+    Require all granted
+    <FilesMatch "\.html$">
+        SetHandler none
+    </FilesMatch>
+</Directory>
 
     # Logs pour le site par défaut
     ErrorLog ${APACHE_LOG_DIR}/error.log
