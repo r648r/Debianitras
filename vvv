@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# Variables
+CERT_DIR="/etc/ssl/certs"
+KEY_DIR="/etc/ssl/private"
+NGINX_CONFIG="/etc/nginx/sites-available/https-ports"
+NGINX_ENABLED="/etc/nginx/sites-enabled/https-ports"
+DOMAIN1="secure-cert-7000.local"
+DOMAIN2="secure-cert-5000.local"
+
+# Couleurs pour l'affichage
+GREEN="\e[32m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# Demande des informations pour le certificat
+echo -e "${GREEN}Veuillez saisir les informations nécessaires pour les certificats SSL :${RESET}"
+
+read -p "Code pays (2 lettres) : " C
+read -p "État ou région : " ST
+read -p "Ville : " L
+read -p "Organisation : " O
+
+SUBJ_BASE="/C=$C/ST=$ST/L=$L/O=$O"
+
+# Créer les répertoires si nécessaire
+echo -e "${GREEN}Création des répertoires SSL si nécessaire...${RESET}"
+sudo mkdir -p $CERT_DIR $KEY_DIR
+
+# Génération du certificat SSL pour le port 7000
+echo -e "${GREEN}Génération du certificat SSL pour le port 7000...${RESET}"
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout "$KEY_DIR/secure7000.key" \
+-out "$CERT_DIR/secure7000.crt" \
+-subj "$SUBJ_BASE/CN=$DOMAIN1"
+
+# Génération du certificat SSL pour le port 5000
+echo -e "${GREEN}Génération du certificat SSL pour le port 5000...${RESET}"
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout "$KEY_DIR/secure5000.key" \
+-out "$CERT_DIR/secure5000.crt" \
+-subj "$SUBJ_BASE/CN=$DOMAIN2"
+
+# Définir les permissions sécurisées sur les clés privées
+echo -e "${GREEN}Définition des permissions sur les clés privées...${RESET}"
+sudo chmod 600 "$KEY_DIR/secure7000.key" "$KEY_DIR/secure5000.key"
+
+# Création de la configuration Nginx
+echo -e "${GREEN}Configuration de Nginx pour HTTPS sur les ports 7000 et 5000...${RESET}"
+
+sudo tee $NGINX_CONFIG > /dev/null <<EOL
+# Serveur HTTPS pour le port 7000
+server {
+    listen 7000 ssl;
+
+    # Certificats pour le port 7000
+    ssl_certificate /etc/ssl/certs/secure7000.crt;
+    ssl_certificate_key /etc/ssl/private/secure7000.key;
+
+    # Proxy pass vers le backend sur le port 7001
+    location / {
+        proxy_pass http://127.0.0.1:7001;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+
+    # Logs pour le port 7000
+    error_log /var/log/nginx/error-7000.log;
+    access_log /var/log/nginx/access-7000.log;
+}
+
+# Serveur HTTPS pour le port 5000
+server {
+    listen 5000 ssl;
+
+    # Certificats pour le port 5000
+    ssl_certificate /etc/ssl/certs/secure5000.crt;
+    ssl_certificate_key /etc/ssl/private/secure5000.key;
+
+    # Proxy pass vers le backend sur le port 5001
+    location / {
+        proxy_pass http://127.0.0.1:5001;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+
+    # Logs pour le port 5000
+    error_log /var/log/nginx/error-5000.log;
+    access_log /var/log/nginx/access-5000.log;
+}
+EOL
+
+# Activation de la configuration Nginx
+if [ -L $NGINX_ENABLED ]; then
+    echo -e "${GREEN}La configuration Nginx est déjà activée.${RESET}"
+else
+    echo -e "${GREEN}Activation de la configuration Nginx...${RESET}"
+    sudo ln -s $NGINX_CONFIG $NGINX_ENABLED
+fi
+
+# Vérification de la configuration Nginx
+echo -e "${GREEN}Vérification de la configuration Nginx...${RESET}"
+sudo nginx -t
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Erreur dans la configuration Nginx. Veuillez vérifier les journaux.${RESET}"
+    exit 1
+fi
+
+# Redémarrage de Nginx
+echo -e "${GREEN}Redémarrage de Nginx...${RESET}"
+sudo systemctl restart nginx
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}Configuration SSL et redémarrage de Nginx réussis.${RESET}"
+else
+    echo -e "${RED}Le redémarrage de Nginx a échoué. Veuillez vérifier les journaux.${RESET}"
+    exit 1
+fi
