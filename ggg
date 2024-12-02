@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Variables
+CERT_DIR="/etc/ssl/certs"
+KEY_DIR="/etc/ssl/private"
+DOMAIN1="secure-cert-1.local"
+DOMAIN2="secure-cert-2.local"
+
+# Demande des informations pour le certificat
+echo "Veuillez saisir les informations nécessaires pour le certificat SSL :"
+
+read -p "Code pays (2 lettres) : " C
+read -p "État ou région : " ST
+read -p "Ville : " L
+read -p "Organisation : " O
+read -p "Nom commun (CN, ex: domaine.local) : " CN
+
+SUBJ="/C=$C/ST=$ST/L=$L/O=$O/CN=$CN"
+
+# Créer les répertoires si nécessaire
+echo "Création des répertoires SSL si nécessaire..."
+sudo mkdir -p $CERT_DIR $KEY_DIR
+
+# Génération du certificat SSL pour le premier domaine (port 9091)
+echo "Génération du certificat SSL pour le premier domaine..."
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout "$KEY_DIR/secure9091.key" \
+-out "$CERT_DIR/secure9091.crt" \
+-subj "$SUBJ"
+
+# Génération du certificat SSL pour le second domaine (port 9191)
+echo "Génération du certificat SSL pour le second domaine..."
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout "$KEY_DIR/secure9191.key" \
+-out "$CERT_DIR/secure9191.crt" \
+-subj "$SUBJ"
+
+# Définir les permissions sécurisées sur les clés privées
+echo "Définition des permissions sur les clés privées..."
+sudo chmod 600 "$KEY_DIR/secure9091.key"
+sudo chmod 600 "$KEY_DIR/secure9191.key"
+
+# Vérification de la configuration d'Apache
+echo "Vérification de la configuration d'Apache..."
+sudo apache2ctl configtest
+if [ $? -ne 0 ]; then
+    echo "La vérification de la configuration Apache a échoué. Veuillez corriger les erreurs."
+    exit 1
+fi
+
+# Redémarrage d'Apache
+echo "Redémarrage d'Apache..."
+sudo systemctl restart apache2
+
+# Résultat final
+if [ $? -eq 0 ]; then
+    echo "Configuration SSL terminée avec succès et Apache redémarré."
+else
+    echo "Le redémarrage d'Apache a échoué. Vérifiez les journaux pour plus d'informations."
+    exit 1
+fi
