@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Vérification des permissions root
+if [ "$EUID" -ne 0 ]; then
+    echo "Veuillez exécuter ce script en tant que root."
+    exit 1
+fi
+
+# Vérification et recréation du fichier nginx.conf s'il est manquant
+NGINX_CONF="/etc/nginx/nginx.conf"
+if [ ! -f "$NGINX_CONF" ]; then
+    echo "Le fichier nginx.conf est manquant. Création d'un fichier de configuration de base..."
+    cat > "$NGINX_CONF" <<EOL
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+    worker_connections 768;
+}
+
+http {
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    gzip on;
+    gzip_disable "msie6";
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+EOL
+    echo "Fichier nginx.conf recréé avec succès."
+else
+    echo "Le fichier nginx.conf existe déjà. Aucune action nécessaire."
+fi
+
+# Redémarrage de Nginx pour appliquer les modifications
+echo "Vérification de la configuration de Nginx..."
+nginx -t
+
+if [ $? -eq 0 ]; then
+    echo "Redémarrage de Nginx..."
+    systemctl restart nginx
+    echo "Nginx redémarré avec succès."
+else
+    echo "Erreur dans la configuration de Nginx. Veuillez vérifier les fichiers de configuration."
+fi
