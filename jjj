@@ -1,35 +1,34 @@
 <VirtualHost *:80>
-    # Adresse e-mail de l'administrateur du serveur
+    # Adresse e-mail de l'administrateur
     ServerAdmin webmaster@localhost
 
-    # Chemin du répertoire racine du site
+    # Répertoire racine du site
     DocumentRoot /var/www/html
 
-    # Nom de domaine principal (recommandé pour éviter les avertissements)
+    # Nom de domaine principal
     ServerName example.com
 
-    # Niveau des logs pour ce VirtualHost
-    LogLevel warn
-
-    # Chemins des fichiers de logs pour ce VirtualHost
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    # Page d'erreur personnalisée pour HTTP 500
+    # Définir une page d'erreur 500 par défaut
     ErrorDocument 500 /symfony-error.html
 
-    # Ajouter des headers pour simuler une application Symfony
+    # Ajouter des headers pour simuler Symfony
     <IfModule mod_headers.c>
         Header set X-Powered-By "Symfony 3.4.10"
         Header set X-Framework-Version "Symfony 3.4.10"
-        Header set X-Debug-Token "example-token-1234"
-        Header set X-Debug-Token-Link "https://example.com/_profiler/example-token-1234"
+        Header set X-Debug-Token "token-123456"
+        Header set X-Debug-Token-Link "https://example.com/_profiler/token-123456"
     </IfModule>
 
-    # Répertoires autorisés et options pour la racine
+    # Activer la réécriture pour diriger toutes les requêtes vers l'erreur 500
     <Directory /var/www/html>
         Options -Indexes +FollowSymLinks
         AllowOverride None
         Require all granted
+        RewriteEngine On
+        RewriteRule ^.*$ /symfony-error.html [R=500,L]
     </Directory>
+
+    # Logs pour le site par défaut
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
