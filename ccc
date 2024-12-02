@@ -1,20 +1,12 @@
-Listen 80      # Port HTTP standard
-Listen 8080    # Port HTTP alternatif
-Listen 8081    # Port HTTP supplémentaire
+Listen 0.0.0.0:8081
+Listen 0.0.0.0:8082
 
 <IfModule ssl_module>
-    Listen 443   # Port HTTPS standard
-    Listen 8443  # Port HTTPS alternatif
+    Listen 0.0.0.0:9091
+    Listen 0.0.0.0:9191
 </IfModule>
 
-Listen 9090    # Port personnalisé
-Listen 8888    # Port personnalisé
-Listen 3000    # Port personnalisé
-
-Listen 5000    # API ou applications backend
-Listen 7000    # Applications diverses
-
 <IfModule mod_gnutls.c>
-    # Configuration si le module GnuTLS est activé
-    Listen 5443  # Port HTTPS sécurisé avec GnuTLS
+    Listen 0.0.0.0:7000
+    Listen 0.0.0.0:5000
 </IfModule>
