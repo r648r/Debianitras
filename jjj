@@ -1,0 +1,35 @@
+<VirtualHost *:80>
+    # Adresse e-mail de l'administrateur du serveur
+    ServerAdmin webmaster@localhost
+
+    # Chemin du répertoire racine du site
+    DocumentRoot /var/www/html
+
+    # Nom de domaine principal (recommandé pour éviter les avertissements)
+    ServerName example.com
+
+    # Niveau des logs pour ce VirtualHost
+    LogLevel warn
+
+    # Chemins des fichiers de logs pour ce VirtualHost
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    # Page d'erreur personnalisée pour HTTP 500
+    ErrorDocument 500 /symfony-error.html
+
+    # Ajouter des headers pour simuler une application Symfony
+    <IfModule mod_headers.c>
+        Header set X-Powered-By "Symfony 3.4.10"
+        Header set X-Framework-Version "Symfony 3.4.10"
+        Header set X-Debug-Token "example-token-1234"
+        Header set X-Debug-Token-Link "https://example.com/_profiler/example-token-1234"
+    </IfModule>
+
+    # Répertoires autorisés et options pour la racine
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+</VirtualHost>
