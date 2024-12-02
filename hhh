@@ -1,0 +1,6 @@
+<IfModule mod_headers.c>
+    Header set X-Powered-By "Symfony 3.4.10"
+    Header set X-Framework-Version "Symfony 3.4.10"
+    Header set X-Debug-Token "sgfrtyhszadsqfg"
+    Header set X-Debug-Token-Link "https://example.com/_profiler/a1b2c3"
+</IfModule>
