@@ -1,0 +1,139 @@
+# VirtualHost pour le port 7000
+<VirtualHost *:7000>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-7000.log
+    CustomLog ${APACHE_LOG_DIR}/access-7000.log combined
+</VirtualHost>
+
+# VirtualHost pour le port 5000
+<VirtualHost *:5000>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-5000.log
+    CustomLog ${APACHE_LOG_DIR}/access-5000.log combined
+</VirtualHost>
+
+# VirtualHost pour le port 9091
+<VirtualHost *:9091>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/secure9091.crt
+    SSLCertificateKeyFile /etc/ssl/private/secure9091.key
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-9091.log
+    CustomLog ${APACHE_LOG_DIR}/access-9091.log combined
+</VirtualHost>
+
+# VirtualHost pour le port 9191
+<VirtualHost *:9191>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/secure9191.crt
+    SSLCertificateKeyFile /etc/ssl/private/secure9191.key
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-9191.log
+    CustomLog ${APACHE_LOG_DIR}/access-9191.log combined
+</VirtualHost>
+
+# VirtualHost pour le port 8081
+<VirtualHost *:8081>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-8081.log
+    CustomLog ${APACHE_LOG_DIR}/access-8081.log combined
+</VirtualHost>
+
+# VirtualHost pour le port 8082
+<VirtualHost *:8082>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-8082.log
+    CustomLog ${APACHE_LOG_DIR}/access-8082.log combined
+</VirtualHost>
