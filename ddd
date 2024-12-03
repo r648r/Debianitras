@@ -75,4 +75,65 @@
     ServerName 127.0.0.1
 
     SSLEngine on
-    SSLCertificateFile /etc/ssl/c
+    SSLCertificateFile /etc/ssl/certs/secure9191.crt
+    SSLCertificateKeyFile /etc/ssl/private/secure9191.key
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=500,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 500 /api-internal-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-9191.log
+    CustomLog ${APACHE_LOG_DIR}/access-9191.log combined
+</VirtualHost>
+
+# Port 8081 - Erreur 401 vers la page /api-auth-error.html
+<VirtualHost *:8081>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-auth-error.html$ [NC]
+    RewriteRule ^.*$ /api-auth-error.html [R=401,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 401 /api-auth-error.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-8081.log
+    CustomLog ${APACHE_LOG_DIR}/access-8081.log combined
+</VirtualHost>
+
+# Port 8082 - Erreur 403 vers la page /api-forbidden.html
+<VirtualHost *:8082>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName 127.0.0.1
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-forbidden.html$ [NC]
+    RewriteRule ^.*$ /api-forbidden.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-forbidden.html
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/error-8082.log
+    CustomLog ${APACHE_LOG_DIR}/access-8082.log combined
+</VirtualHost>
