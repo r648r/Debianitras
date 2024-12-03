@@ -1,0 +1,3 @@
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /etc/ssl/private/secure9091.key \
+-out /etc/ssl/certs/secure9091.crt
