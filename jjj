@@ -1,37 +1,12 @@
-<VirtualHost *:80>
-    # Adresse e-mail de l'administrateur
-    ServerAdmin webmaster@localhost
+<IfModule mod_headers.c>
+    Header set X-Powered-By "Symfony 3.4.10"
+    Header set X-Framework-Version "Symfony 3.4.10"
 
-    # Répertoire racine du site
-    DocumentRoot /var/www/html
+    # Inject a pseudo-random token using the time and request ID
+    RewriteEngine On
+    RewriteCond %{TIME_SEC} (.*)
+    RewriteRule .* - [E=DEBUG_TOKEN:token-%1-%{UNIQUE_ID}]
 
-    # Nom de domaine principal
-    ServerName example.com
-
-    # Définir une page d'erreur 500 par défaut
-    ErrorDocument 500 /symfony-error.html
-
-    # Ajouter des headers pour simuler Symfony
-    <IfModule mod_headers.c>
-        Header set X-Powered-By "Symfony 3.4.10"
-        Header set X-Framework-Version "Symfony 3.4.10"
-        Header set X-Debug-Token "token-123456"
-        Header set X-Debug-Token-Link "https://example.com/_profiler/token-123456"
-    </IfModule>
-
-    # Activer la réécriture pour diriger toutes les requêtes vers l'erreur 500
-    sudo nano /etc/apache2/sites-available/000-default.conf
-
-<Directory /var/www/html>
-    Options -Indexes +FollowSymLinks
-    AllowOverride None
-    Require all granted
-    <FilesMatch "\.html$">
-        SetHandler none
-    </FilesMatch>
-</Directory>
-
-    # Logs pour le site par défaut
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+    Header set X-Debug-Token "%{DEBUG_TOKEN}e"
+    Header set X-Debug-Token-Link "https://example.com/_profiler/%{DEBUG_TOKEN}e"
+</IfModule>
