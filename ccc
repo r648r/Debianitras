@@ -1,12 +1,9 @@
 Listen 0.0.0.0:8081
 Listen 0.0.0.0:8082
+Listen 0.0.0.0:7000
+Listen 0.0.0.0:5000
 
 <IfModule ssl_module>
     Listen 0.0.0.0:9091
     Listen 0.0.0.0:9191
-</IfModule>
-
-<IfModule mod_gnutls.c>
-    Listen 0.0.0.0:7000
-    Listen 0.0.0.0:5000
 </IfModule>
