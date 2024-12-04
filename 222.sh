@@ -47,7 +47,7 @@ read -p "Nom commun (ex: localhost) : " COMMON_NAME
 
 # Générer les certificats SSL pour les ports corrects
 echo "Génération des certificats SSL..."
-for PORT in 9091 9191 7000 5000; do
+for PORT in 9091 9191 7000 5000 5001 7001; do
     sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
         -keyout /etc/ssl/private/secure${PORT}.key \
         -out /etc/ssl/certs/secure${PORT}.crt \
