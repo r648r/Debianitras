@@ -226,54 +226,52 @@ sudo a2ensite mega.conf
 # Créer la configuration du site Nginx
 echo "Création de la configuration du site Nginx..."
 cat <<EOL | sudo tee /etc/nginx/sites-available/secure_ports.conf > /dev/null
+# Configuration pour le port 7001 avec SSL
 server {
-    listen 7000 ssl;
+    listen 7001 ssl;
 
-    ssl_certificate /etc/ssl/certs/secure7000.crt;
-    ssl_certificate_key /etc/ssl/private/secure7000.key;
+    # Certificats pour SSL
+    ssl_certificate /etc/ssl/certs/secure7001.crt;
+    ssl_certificate_key /etc/ssl/private/secure7001.key;
 
+    # Répertoire racine et index
     root /var/www/html;
     index index.html;
+
+    # Configuration de base pour le port 7001
     server_name localhost;
 
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ =404;
     }
 
-    error_log /var/log/nginx/error-7000.log;
-    access_log /var/log/nginx/access-7000.log;
-
-    add_header X-Varnish "\$request_id";
-    add_header X-Cache "HIT";
-    add_header X-Cache-Hits "5";
-    add_header Age "120";
-    add_header Via "1.1 varnish (Varnish/6.6)";
-    add_header X-Forwarded-For \$remote_addr;
+    # Logs pour débogage
+    error_log /var/log/nginx/error-7001.log;
+    access_log /var/log/nginx/access-7001.log;
 }
 
+# Configuration pour le port 5001 avec SSL
 server {
-    listen 5000 ssl;
+    listen 5001 ssl;
 
-    ssl_certificate /etc/ssl/certs/secure5000.crt;
-    ssl_certificate_key /etc/ssl/private/secure5000.key;
+    # Certificats pour SSL
+    ssl_certificate /etc/ssl/certs/secure5001.crt;
+    ssl_certificate_key /etc/ssl/private/secure5001.key;
 
+    # Répertoire racine et index
     root /var/www/html;
     index index.html;
+
+    # Configuration de base pour le port 5001
     server_name localhost;
 
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ =404;
     }
 
-    error_log /var/log/nginx/error-5000.log;
-    access_log /var/log/nginx/access-5000.log;
-
-    add_header X-Varnish "\$request_id";
-    add_header X-Cache "HIT";
-    add_header X-Cache-Hits "5";
-    add_header Age "120";
-    add_header Via "1.1 varnish (Varnish/6.6)";
-    add_header X-Forwarded-For \$remote_addr;
+    # Logs pour débogage
+    error_log /var/log/nginx/error-5001.log;
+    access_log /var/log/nginx/access-5001.log;
 }
 EOL
 
