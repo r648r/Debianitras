@@ -10,12 +10,6 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii 
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
 
-chown -R www-data:www-data /var/www/html
-
-# Définir les permissions pour les répertoires et les fichiers dans /var/www/html
-find /var/www/html -type d -exec chmod 755 {} \; 
-find /var/www/html -type f -exec chmod 644 {} \;
-
 # Activer les modules Apache nécessaires
 a2enmod rewrite ssl headers
 # Configurer Apache ports.conf
@@ -286,7 +280,6 @@ if sudo apachectl configtest; then
     APACHE_STATUS=0
 else
     echo "Erreur dans la configuration Apache."
-    APACHE_STATUS=1
 fi
 
 if sudo nginx -t; then
@@ -294,13 +287,14 @@ if sudo nginx -t; then
     NGINX_STATUS=0
 else
     echo "Erreur dans la configuration Nginx."
-    NGINX_STATUS=1
 fi
 
-if [ "$APACHE_STATUS" -ne 0 ] || [ "$NGINX_STATUS" -ne 0 ]; then
-    echo "Erreur dans la configuration. Veuillez vérifier et corriger les erreurs."
-    exit 1
-fi
+
+chown -R www-data:www-data /var/www/html
+
+# Définir les permissions pour les répertoires et les fichiers dans /var/www/html
+find /var/www/html -type d -exec chmod 755 {} \; 
+find /var/www/html -type f -exec chmod 644 {} \;
 
 # Activer et démarrer les services Apache et Nginx
 echo "Activation et démarrage des services Apache et Nginx..."
@@ -308,5 +302,6 @@ sudo systemctl enable apache2
 sudo systemctl enable nginx
 sudo systemctl restart apache2
 sudo systemctl restart nginx
+
 
 echo "Configuration terminée avec succès."
