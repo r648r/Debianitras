@@ -1,3 +1,20 @@
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
+
+chown -R www-data:www-data /var/www/html
+
+# Définir les permissions pour les répertoires et les fichiers dans /var/www/html
+find /var/www/html -type d -exec chmod 755 {} \;   # Répertoires : 755
+find /var/www/html -type f -exec chmod 644 {} \;   # Fichiers : 644
+
+# Définir les permissions et propriétaires pour les certificats SSL
+# Certificats publics
+chown root:root /etc/ssl/certs/secure*.crt
+chmod 644 /etc/ssl/certs/secure*.crt
+
+# Clés privées
+chown root:root /etc/ssl/private/secure*.key
+chmod 600 /etc/ssl/private/secure*.key
+
+
