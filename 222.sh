@@ -4,10 +4,6 @@ if [ "$EUID" -ne 0 ]; then
     echo "Veuillez exécuter ce script en tant que root."
     exit
 fi
-
-# Demander le domaine à l'utilisateur
-read -p "Entrez le domaine (par exemple, https://exemple.com) : " EXAMPLE_COM
-
 apt update && apt install -y redis-server apache2 curl nginx openssl
 
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
