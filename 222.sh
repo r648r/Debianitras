@@ -277,14 +277,12 @@ fi
 echo "Test des configurations Apache et Nginx..."
 if sudo apachectl configtest; then
     echo "Configuration Apache OK."
-    APACHE_STATUS=0
 else
     echo "Erreur dans la configuration Apache."
 fi
 
 if sudo nginx -t; then
     echo "Configuration Nginx OK."
-    NGINX_STATUS=0
 else
     echo "Erreur dans la configuration Nginx."
 fi
@@ -296,12 +294,14 @@ chown -R www-data:www-data /var/www/html
 find /var/www/html -type d -exec chmod 755 {} \; 
 find /var/www/html -type f -exec chmod 644 {} \;
 
+a2dissite 000-default.conf && rm /etc/nginx/sites-enabled/default
+
 # Activer et démarrer les services Apache et Nginx
 echo "Activation et démarrage des services Apache et Nginx..."
-sudo systemctl enable apache2
-sudo systemctl enable nginx
-sudo systemctl restart apache2
-sudo systemctl restart nginx
+systemctl enable apache2
+systemctl enable nginx
+systemctl restart apache2
+systemctl restart nginx
 
 
 echo "Configuration terminée avec succès."
