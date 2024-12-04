@@ -50,48 +50,19 @@ done
 
 # Créer la configuration du site Apache
 cat <<EOL > /etc/apache2/sites-available/mega.conf
-<VirtualHost *:7000 *:5000 *:9091 *:9191 *:8081 *:8082>
+# Fichier : /etc/apache2/sites-available/mega.conf
+
+# VirtualHosts SSL et non-SSL combinés
+
+# Port 7000 - Erreur 500 vers la page /index.php
+<VirtualHost *:7000>
     ServerAdmin admin@patate.com
     DocumentRoot /var/www/html
-    ServerName 127.0.0.1
+    ServerName localhost
 
     RewriteEngine On
-    <If "%{SERVER_PORT} == '7000'">
-        RewriteCond %{REQUEST_URI} !^/index.php$ [NC]
-        RewriteRule ^.*$ /index.php [R=500,L]
-        ErrorDocument 500 /index.php
-    </If>
-    <If "%{SERVER_PORT} == '5000'">
-        RewriteCond %{REQUEST_URI} !^/api-auth-error.html$ [NC]
-        RewriteRule ^.*$ /api-auth-error.html [R=401,L]
-        ErrorDocument 401 /api-auth-error.html
-    </If>
-    <If "%{SERVER_PORT} == '9091'">
-        SSLEngine on
-        SSLCertificateFile /etc/ssl/certs/secure9091.crt
-        SSLCertificateKeyFile /etc/ssl/private/secure9091.key
-        RewriteCond %{REQUEST_URI} !^/api-forbidden.html$ [NC]
-        RewriteRule ^.*$ /api-forbidden.html [R=403,L]
-        ErrorDocument 403 /api-forbidden.html
-    </If>
-    <If "%{SERVER_PORT} == '9191'">
-        SSLEngine on
-        SSLCertificateFile /etc/ssl/certs/secure9191.crt
-        SSLCertificateKeyFile /etc/ssl/private/secure9191.key
-        RewriteCond %{REQUEST_URI} !^/api-internal-error.html$ [NC]
-        RewriteRule ^.*$ /api-internal-error.html [R=500,L]
-        ErrorDocument 500 /api-internal-error.html
-    </If>
-    <If "%{SERVER_PORT} == '8081'">
-        RewriteCond %{REQUEST_URI} !^/api-auth-error.html$ [NC]
-        RewriteRule ^.*$ /api-auth-error.html [R=401,L]
-        ErrorDocument 401 /api-auth-error.html
-    </If>
-    <If "%{SERVER_PORT} == '8082'">
-        RewriteCond %{REQUEST_URI} !^/api-forbidden.html$ [NC]
-        RewriteRule ^.*$ /api-forbidden.html [R=403,L]
-        ErrorDocument 403 /api-forbidden.html
-    </If>
+    RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+    RewriteRule ^.*$ /index.php [R=500,L]
 
     <Directory /var/www/html>
         Options -Indexes +FollowSymLinks
@@ -99,14 +70,130 @@ cat <<EOL > /etc/apache2/sites-available/mega.conf
         Require all granted
     </Directory>
 
-    Header set X-Powered-By "Symfony 3.4.10"
-    Header set X-Framework-Version "Symfony 3.4.10"
-    Header set X-Debug-Token "d6e8a1b4f32c4d77b1f3a2e9c7e5"
-    Header set X-Debug-Token-Link "${EXAMPLE_COM}/_profiler/a1b2c3"
+    ErrorDocument 500 /index.php
     LogLevel warn
-    ErrorLog \${APACHE_LOG_DIR}/error-\${SERVER_PORT}.log
-    CustomLog \${APACHE_LOG_DIR}/access-\${SERVER_PORT}.log combined
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
 </VirtualHost>
+
+# Port 5000 - Erreur 401 vers la page /api-auth-error.html
+<VirtualHost *:5000>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName localhost
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-auth-error\.html$ [NC]
+    RewriteRule ^.*$ /api-auth-error.html [R=401,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 401 /api-auth-error.html
+    LogLevel warn
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
+</VirtualHost>
+
+# Port 8081 - Erreur 401 vers la page /api-auth-error.html
+<VirtualHost *:8081>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName localhost
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-auth-error\.html$ [NC]
+    RewriteRule ^.*$ /api-auth-error.html [R=401,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 401 /api-auth-error.html
+    LogLevel warn
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
+</VirtualHost>
+
+# Port 8082 - Erreur 403 vers la page /api-forbidden.html
+<VirtualHost *:8082>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName localhost
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-forbidden\.html$ [NC]
+    RewriteRule ^.*$ /api-forbidden.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-forbidden.html
+    LogLevel warn
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
+</VirtualHost>
+
+# Port 9091 - Erreur 403 vers la page /api-forbidden.html (SSL)
+<VirtualHost *:9091>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName localhost
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/secure9091.crt
+    SSLCertificateKeyFile /etc/ssl/private/secure9091.key
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-forbidden\.html$ [NC]
+    RewriteRule ^.*$ /api-forbidden.html [R=403,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 403 /api-forbidden.html
+    LogLevel warn
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
+</VirtualHost>
+
+# Port 9191 - Erreur 500 vers la page /api-internal-error.html (SSL)
+<VirtualHost *:9191>
+    ServerAdmin admin@patate.com
+    DocumentRoot /var/www/html
+    ServerName localhost
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/secure9191.crt
+    SSLCertificateKeyFile /etc/ssl/private/secure9191.key
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/api-internal-error\.html$ [NC]
+    RewriteRule ^.*$ /api-internal-error.html [R=500,L]
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorDocument 500 /api-internal-error.html
+    LogLevel warn
+    ErrorLog /dev/null
+    CustomLog /dev/null combined
+</VirtualHost>
+
 EOL
 
 # Activer le site Apache
