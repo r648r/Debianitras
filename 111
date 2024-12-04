@@ -1,3 +1,46 @@
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
--keyout /etc/ssl/private/secure9091.key \
--out /etc/ssl/certs/secure9091.crt
+# Configuration pour le port 7001 avec proxy_pass vers 7000
+server {
+    listen 7001 ssl;
+
+    # Certificats pour SSL
+    ssl_certificate /etc/ssl/certs/secure7001.crt;
+    ssl_certificate_key /etc/ssl/private/secure7001.key;
+
+    # Configuration de base pour le port 7001
+    server_name localhost;
+
+    location / {
+        proxy_pass http://127.0.0.1:7000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Désactiver les logs
+    access_log off;
+    error_log /dev/null crit;
+}
+
+# Configuration pour le port 5001 avec proxy_pass vers 5000
+server {
+    listen 5001 ssl;
+
+    # Certificats pour SSL
+    ssl_certificate /etc/ssl/certs/secure5001.crt;
+    ssl_certificate_key /etc/ssl/private/secure5001.key;
+
+    server_name localhost;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Désactiver les logs
+    access_log off;
+    error_log /dev/null crit;
+}
