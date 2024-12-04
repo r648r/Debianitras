@@ -1,15 +1,4 @@
 #!/bin/bash
-
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
-
-chown -R www-data:www-data /var/www/html
-
-# Définir les permissions pour les répertoires et les fichiers dans /var/www/html
-find /var/www/html -type d -exec chmod 755 {} \; 
-find /var/www/html -type f -exec chmod 644 {} \;
-
 # Vérifier si le script est exécuté en tant que root
 if [ "$EUID" -ne 0 ]; then
     echo "Veuillez exécuter ce script en tant que root."
@@ -22,6 +11,16 @@ read -p "Entrez le domaine (par exemple, https://exemple.com) : " EXAMPLE_COM
 # Mettre à jour les paquets et installer les dépendances
 apt update && apt install -y redis-server apache2 curl nginx openssl
 echo "Installation terminée : Redis, Apache2, cURL et Nginx sont installés."
+
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
+
+chown -R www-data:www-data /var/www/html
+
+# Définir les permissions pour les répertoires et les fichiers dans /var/www/html
+find /var/www/html -type d -exec chmod 755 {} \; 
+find /var/www/html -type f -exec chmod 644 {} \;
 
 # Activer les modules Apache nécessaires
 a2enmod rewrite ssl headers
