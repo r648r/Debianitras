@@ -1,5 +1,18 @@
 #!/bin/bash
 
+HONEYPOT_DIR="/opt/redis_honeypot"
+HONEYPOT_USER="redis_honeypot"
+REDIS_CONF="/etc/redis/redis_honeypot.conf"
+DUMP_FILE="$HONEYPOT_DIR/dump.rdb"
+REDIS_PORT="6379"
+REDIS_PASSWORD="SuperWeakPassword123"
+read -p "Pays (Code ISO) : " COUNTRY
+read -p "État : " STATE
+read -p "Ville : " CITY
+read -p "Organisation : " ORGANIZATION
+read -p "Unité d'organisation : " ORG_UNIT
+read -p "Nom commun (ex: localhost) : " COMMON_NAME
+
 # Vérifier si le script est exécuté en tant que root
 if [ "$EUID" -ne 0 ]; then
     echo "Veuillez exécuter ce script en tant que root."
@@ -9,6 +22,122 @@ fi
 # Mettre à jour les paquets et installer les dépendances
 apt update && apt install -y redis-server apache2 curl nginx openssl
 echo "Installation terminée : Redis, Apache2, cURL et Nginx sont installés."
+
+# Chemins et configurations
+# Fonction pour afficher les messages
+log() {
+    echo -e "\e[1;32m[INFO]\e[0m $1"
+}
+
+error() {
+    echo -e "\e[1;31m[ERROR]\e[0m $1"
+    exit 1
+}
+
+# Vérifier si le script est exécuté en tant que root
+if [ "$(id -u)" -ne 0 ]; then
+    error "Ce script doit être exécuté avec les droits root."
+fi
+
+# Étape 1 : Installer Redis
+log "Installation de Redis..."
+apt update && apt install -y redis-server || error "Échec de l'installation de Redis."
+
+# Étape 2 : Créer l'utilisateur et le répertoire pour le honeypot
+log "Création de l'utilisateur et du répertoire pour le honeypot..."
+useradd -r -s /bin/false $HONEYPOT_USER || log "Utilisateur existant."
+mkdir -p $HONEYPOT_DIR
+chown $HONEYPOT_USER:$HONEYPOT_USER $HONEYPOT_DIR
+
+# Étape 3 : Configurer Redis pour le honeypot
+log "Configuration de Redis pour le honeypot..."
+cat > $REDIS_CONF <<EOL
+bind 0.0.0.0
+protected-mode no
+port $REDIS_PORT
+requirepass "$REDIS_PASSWORD"
+dir $HONEYPOT_DIR
+dbfilename "dump.rdb"
+
+# Désactiver les commandes critiques
+rename-command CONFIG ""
+rename-command SHUTDOWN ""
+rename-command FLUSHALL ""
+rename-command FLUSHDB ""
+rename-command DEBUG ""
+
+# Simulations crédibles
+notify-keyspace-events KEA
+logfile /dev/null
+maxmemory 50mb
+maxclients 10
+EOL
+
+# Étape 4 : Générer un fichier dump.rdb crédible
+log "Génération de données crédibles pour un e-commerce..."
+# Démarrer Redis temporairement
+redis-server --daemonize yes --port 6380 --requirepass "$REDIS_PASSWORD"
+sleep 2
+
+# Ajouter des données factices pour un e-commerce
+redis-cli -p 6380 -a "$REDIS_PASSWORD" <<EOL
+SET "user:1001" "Raphael Jamis"
+SET "user:1002" "Jane Dedand"
+SET "user:1003" "Alice Johnson"
+HSET "product:2001" "name" "Laptop" "price" "1200" "stock" "45"
+HSET "product:2002" "name" "Smartphone" "price" "800" "stock" "150"
+HSET "product:2003" "name" "Headphones" "price" "150" "stock" "80"
+LPUSH "orders" '{"order_id": "3001", "user": "1001", "product": "2001", "quantity": "1", "total": "1200"}'
+LPUSH "orders" '{"order_id": "3002", "user": "1003", "product": "2002", "quantity": "2", "total": "1600"}'
+SET "stats:total_sales" "2800"
+SET "stats:active_users" "150"
+EOL
+
+# Sauvegarder les données dans dump.rdb
+log "Sauvegarde des données dans dump.rdb..."
+redis-cli -p 6380 -a "$REDIS_PASSWORD" SAVE
+mv /var/lib/redis/dump.rdb $DUMP_FILE
+chown $HONEYPOT_USER:$HONEYPOT_USER $DUMP_FILE
+
+# Arrêter Redis temporaire
+redis-cli -p 6380 -a "$REDIS_PASSWORD" SHUTDOWN
+sleep 2
+
+# Étape 5 : Configurer le service systemd pour le honeypot
+log "Configuration du service systemd pour le honeypot..."
+cat > /etc/systemd/system/redis_honeypot.service <<EOL
+[Unit]
+Description=Redis Honeypot Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/redis-server $REDIS_CONF
+User=$HONEYPOT_USER
+Group=$HONEYPOT_USER
+RuntimeDirectory=redis_honeypot
+ProtectSystem=full
+ProtectHome=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+ReadOnlyPaths=/
+ReadWritePaths=$HONEYPOT_DIR
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+# Étape 6 : Activer et démarrer le service
+log "Activation et démarrage du honeypot Redis..."
+systemctl daemon-reload
+systemctl enable redis_honeypot
+systemctl start redis_honeypot
+
+# Vérification du service
+systemctl status redis_honeypot --no-pager
+
+log "Honeypot Redis configuré avec succès !"
+log "Adresse : 0.0.0.0:$REDIS_PORT"
+log "Mot de passe : $REDIS_PASSWORD"
 
 # Activer les modules Apache nécessaires
 a2enmod rewrite ssl headers
@@ -28,14 +157,6 @@ EOL
 
 # Créer les répertoires pour les certificats SSL
 mkdir -p /etc/ssl/certs /etc/ssl/private
-
-# Demander les informations pour les certificats SSL
-read -p "Pays (Code ISO) : " COUNTRY
-read -p "État : " STATE
-read -p "Ville : " CITY
-read -p "Organisation : " ORGANIZATION
-read -p "Unité d'organisation : " ORG_UNIT
-read -p "Nom commun (ex: localhost) : " COMMON_NAME
 
 # Générer les certificats SSL
 for PORT in 9091 9191 7001 5001; do
