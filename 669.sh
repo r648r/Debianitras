@@ -245,7 +245,7 @@ server {
 
     add_header X-Varnish "\$request_id";
     add_header X-Cache "HIT";
-    add_header X-Powered-By "Symfony 2.7 / PHP 5.4.0" 
+    add_header X-Powered-By "Symfony 2.7 / PHP 5.4.0";
     add_header X-Cache-Hits "5";
     add_header Age "120";
     add_header Via "1.1 varnish (Varnish/6.6)";
