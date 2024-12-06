@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$EUID" -ne 0 ]; then
+    echo "Veuillez exécuter ce script en tant que root."
+    exit
+fi
 
 HONEYPOT_DIR="/opt/redis_honeypot"
 HONEYPOT_USER="redis_honeypot"
@@ -12,12 +16,6 @@ read -p "Ville : " CITY
 read -p "Organisation : " ORGANIZATION
 read -p "Unité d'organisation : " ORG_UNIT
 read -p "Nom commun (ex: localhost) : " COMMON_NAME
-
-# Vérifier si le script est exécuté en tant que root
-if [ "$EUID" -ne 0 ]; then
-    echo "Veuillez exécuter ce script en tant que root."
-    exit
-fi
 
 # Mettre à jour les paquets et installer les dépendances
 apt update && apt install -y redis-server apache2 curl nginx openssl
@@ -144,8 +142,8 @@ a2enmod rewrite ssl headers
 
 # Configurer les ports Apache
 cat <<EOL > /etc/apache2/ports.conf
-Listen 0.0.0.0:8081
-Listen 0.0.0.0:8082
+Listen 0.0.0.0:8888
+Listen 0.0.0.0:8989
 Listen 0.0.0.0:7000
 Listen 0.0.0.0:5000
 
@@ -218,8 +216,8 @@ cat <<EOL > /etc/apache2/sites-available/mega.conf
     CustomLog /dev/null combined
 </VirtualHost>
 
-# Port 8081 - Erreur 401 vers la page /api-auth-error.html
-<VirtualHost *:8081>
+# Port 8888 - Erreur 401 vers la page /api-auth-error.html
+<VirtualHost *:8888>
     ServerAdmin admin@patate.com
     DocumentRoot /var/www/html
     ServerName localhost
@@ -240,8 +238,8 @@ cat <<EOL > /etc/apache2/sites-available/mega.conf
     CustomLog /dev/null combined
 </VirtualHost>
 
-# Port 8082 - Erreur 403 vers la page /api-forbidden.html
-<VirtualHost *:8082>
+# Port 8989 - Erreur 403 vers la page /api-forbidden.html
+<VirtualHost *:8989>
     ServerAdmin admin@patate.com
     DocumentRoot /var/www/html
     ServerName localhost
@@ -391,10 +389,11 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii 
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
 
+sed -i 's/^bind 127\.0\.0\.1 ::1$/bind 0.0.0.0/' /etc/redis/redis.conf
+
 # Activer les services
 systemctl enable apache2 nginx redis-server
 
 # Redémarrer les services
 systemctl restart apache2 nginx
-
 
