@@ -5,9 +5,6 @@ if [ "$EUID" -ne 0 ]; then
     echo "Veuillez exécuter ce script en tant que root."
     exit
 fi
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
 
 # Mettre à jour les paquets et installer les dépendances
 apt update && apt install -y redis-server apache2 curl nginx openssl
@@ -267,8 +264,14 @@ if [ $APACHE_STATUS -ne 0 ] || [ $NGINX_STATUS -ne 0 ]; then
     exit 1
 fi
 
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.php
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
+
 # Activer les services
 systemctl enable apache2 nginx redis-server
 
 # Redémarrer les services
 systemctl restart apache2 nginx
+
+
