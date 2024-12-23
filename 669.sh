@@ -164,153 +164,112 @@ for PORT in 9091 9191 7001 5001; do
         -subj "/C=$COUNTRY/ST=$STATE/L=$CITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$COMMON_NAME"
 done
 
-# Créer la configuration du site Apache
-cat <<EOL > /etc/apache2/sites-available/mega.conf
-# Fichier : /etc/apache2/sites-available/mega.conf
+cat <<EOL > /etc/nginx/sites-available/notssl.conf
+server {
+    listen 7000;
+    server_name localhost;
 
-# VirtualHosts SSL et non-SSL combinés
+    root /var/www/html;
+    index index.php;
 
-# Port 7000 - Erreur 500 vers la page /index.php
-<VirtualHost *:7000>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+    location / {
+        rewrite ^.*$ /index.php redirect;
+    }
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
-    RewriteRule ^.*$ /index.php [R=500,L]
-    Header set X-Powered-By "Symfony 2.7 / PHP 5.4.0" 
-    Header set Server "Apache/2.2.15 (Unix)"
+    add_header X-Powered-By "Symfony 2.7 / PHP 5.4.0";
+    add_header Server "nginx";
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+    error_page 500 /index.php;
 
-    ErrorDocument 500 /index.php
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+    access_log off;
+    error_log /dev/null warn;
+}
 
-# Port 5000 - Erreur 401 vers la page /api-auth-error.html
-<VirtualHost *:5000>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+server {
+    listen 5000;
+    server_name localhost;
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/api-auth-error\.html$ [NC]
-    RewriteRule ^.*$ /api-auth-error.html [R=401,L]
+    root /var/www/html;
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+    location / {
+        rewrite ^.*$ /api-auth-error.html redirect;
+    }
 
-    ErrorDocument 401 /api-auth-error.html
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+    error_page 401 /api-auth-error.html;
 
-# Port 8888 - Erreur 401 vers la page /api-auth-error.html
-<VirtualHost *:8888>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+    access_log off;
+    error_log /dev/null warn;
+}
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/api-auth-error\.html$ [NC]
-    RewriteRule ^.*$ /api-auth-error.html [R=401,L]
+server {
+    listen 8888;
+    server_name localhost;
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+    root /var/www/html;
 
-    ErrorDocument 401 /api-auth-error.html
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+    location / {
+        rewrite ^.*$ /api-auth-error.html redirect;
+    }
 
-# Port 8989 - Erreur 403 vers la page /api-forbidden.html
-<VirtualHost *:8989>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+    error_page 401 /api-auth-error.html;
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/api-forbidden\.html$ [NC]
-    RewriteRule ^.*$ /api-forbidden.html [R=403,L]
+    access_log off;
+    error_log /dev/null warn;
+}
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+server {
+    listen 8989;
+    server_name localhost;
 
-    ErrorDocument 403 /api-forbidden.html
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+    root /var/www/html;
 
-# Port 9091 - Erreur 403 vers la page /api-forbidden.html (SSL)
-<VirtualHost *:9091>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+    location / {
+        rewrite ^.*$ /api-forbidden.html redirect;
+    }
 
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/secure9091.crt
-    SSLCertificateKeyFile /etc/ssl/private/secure9091.key
+    error_page 403 /api-forbidden.html;
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/api-forbidden\.html$ [NC]
-    RewriteRule ^.*$ /api-forbidden.html [R=403,L]
+    access_log off;
+    error_log /dev/null warn;
+}
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+server {
+    listen 9091 ssl;
+    server_name localhost;
 
-    ErrorDocument 403 /api-forbidden.html
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+    ssl_certificate /etc/ssl/certs/secure9091.crt;
+    ssl_certificate_key /etc/ssl/private/secure9091.key;
 
-# Port 9191 - Erreur 500 vers la page /api-internal-error.html (SSL)
-<VirtualHost *:9191>
-    ServerAdmin admin@patate.com
-    DocumentRoot /var/www/html
-    ServerName localhost
+    root /var/www/html;
 
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/secure9191.crt
-    SSLCertificateKeyFile /etc/ssl/private/secure9191.key
+    location / {
+        rewrite ^.*$ /api-forbidden.html redirect;
+    }
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} !^/api-internal-error\.html$ [NC]
-    RewriteRule ^.*$ /api-internal-error.html [R=500,L]
+    error_page 403 /api-forbidden.html;
 
-    <Directory /var/www/html>
-        Options -Indexes +FollowSymLinks
-        AllowOverride None
-        Require all granted
-    </Directory>
+    access_log off;
+    error_log /dev/null warn;
+}
 
-    ErrorDocument 500 /api-internal-error.html
-    LogLevel warn
-    ErrorLog /dev/null
-    CustomLog /dev/null combined
-</VirtualHost>
+server {
+    listen 9191 ssl;
+    server_name localhost;
+
+    ssl_certificate /etc/ssl/certs/secure9191.crt;
+    ssl_certificate_key /etc/ssl/private/secure9191.key;
+
+    root /var/www/html;
+
+    location / {
+        rewrite ^.*$ /api-internal-error.html redirect;
+    }
+
+    error_page 500 /api-internal-error.html;
+
+    access_log off;
+    error_log /dev/null warn;
+}
 
 EOL
 
@@ -318,7 +277,7 @@ EOL
 a2ensite mega.conf
 
 # Créer la configuration du site Nginx
-cat <<EOL > /etc/nginx/sites-available/secure_ports.conf
+cat <<EOL > /etc/nginx/sites-available/ssl.conf
 server {
     listen 7001 ssl;
 
@@ -373,7 +332,9 @@ server {
 EOL
 
 # Activer le site Nginx
-ln -s /etc/nginx/sites-available/secure_ports.conf /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/ssl.conf /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/notssl.conf /etc/nginx/sites-enabled/
+
 
 # Tester les configurations Apache et Nginx
 apachectl configtest
