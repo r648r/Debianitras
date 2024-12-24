@@ -137,22 +137,6 @@ log "Honeypot Redis configuré avec succès !"
 log "Adresse : 0.0.0.0:$REDIS_PORT"
 log "Mot de passe : $REDIS_PASSWORD"
 
-# Activer les modules Apache nécessaires
-a2enmod rewrite ssl headers
-
-# Configurer les ports Apache
-cat <<EOL > /etc/apache2/ports.conf
-Listen 0.0.0.0:8888
-Listen 0.0.0.0:8989
-Listen 0.0.0.0:7000
-Listen 0.0.0.0:5000
-
-<IfModule ssl_module>
-    Listen 0.0.0.0:9091
-    Listen 0.0.0.0:9191
-</IfModule>
-EOL
-
 # Créer les répertoires pour les certificats SSL
 mkdir -p /etc/ssl/certs /etc/ssl/private
 
@@ -163,6 +147,37 @@ for PORT in 9091 9191 7001 5001; do
         -out /etc/ssl/certs/secure${PORT}.crt \
         -subj "/C=$COUNTRY/ST=$STATE/L=$CITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$COMMON_NAME"
 done
+
+
+cat <<EOL > /etc/nginx/nginx.conf
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+        worker_connections 768;
+}
+http {
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        server_tokens off;
+        more_set_headers "Server: Nginx/0.6.36 (Debian)";
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+        gzip on;
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+EOL
+
 
 cat <<EOL > /etc/nginx/sites-available/notssl.conf
 server {
