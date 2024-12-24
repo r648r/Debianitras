@@ -19,8 +19,6 @@ read -p "Nom commun (ex: localhost) : " COMMON_NAME
 
 # Mettre à jour les paquets et installer les dépendances
 apt update && apt install -y redis-server apache2 curl nginx openssl
-echo "Installation terminée : Redis, Apache2, cURL et Nginx sont installés."
-
 # Chemins et configurations
 # Fonction pour afficher les messages
 log() {
@@ -36,10 +34,6 @@ error() {
 if [ "$(id -u)" -ne 0 ]; then
     error "Ce script doit être exécuté avec les droits root."
 fi
-
-# Étape 1 : Installer Redis
-log "Installation de Redis..."
-apt update && apt install -y redis-server || error "Échec de l'installation de Redis."
 
 # Étape 2 : Créer l'utilisateur et le répertoire pour le honeypot
 log "Création de l'utilisateur et du répertoire pour le honeypot..."
@@ -349,17 +343,6 @@ EOL
 # Activer le site Nginx
 ln -s /etc/nginx/sites-available/ssl.conf /etc/nginx/sites-enabled/
 ln -s /etc/nginx/sites-available/notssl.conf /etc/nginx/sites-enabled/
-
-
-# Tester les configurations Apache et Nginx
-apachectl configtest
-APACHE_STATUS=$?
-nginx -t
-NGINX_STATUS=$?
-if [ $APACHE_STATUS -ne 0 ] || [ $NGINX_STATUS -ne 0 ]; then
-    echo "Erreur dans la configuration. Veuillez vérifier et corriger les erreurs."
-    exit 1
-fi
 
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/iii > /var/www/html/index.html
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/eee > /var/www/html/api-auth-error.html
