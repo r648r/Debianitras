@@ -19,6 +19,8 @@ ALIAS_FILE="$HOME/.zsh_aliases_custom"
 cat <<EOL > $ALIAS_FILE
 # Custom aliases
 alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
+alias fzf-n="find /opt/nuclei-templates/ coffinxp/ -type f -name "*.y*" | fzf"
+alias fzf-w="find /opt/SecLists/ /opt/payloads/ -type f -name '*.txt' | fzf"
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias apt='nala'
 alias sudo='sudo '
