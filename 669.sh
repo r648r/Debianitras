@@ -282,9 +282,6 @@ server {
 
 EOL
 
-# Activer le site Apache
-a2ensite mega.conf
-
 # Créer la configuration du site Nginx
 cat <<EOL > /etc/nginx/sites-available/ssl.conf
 server {
