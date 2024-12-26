@@ -16,28 +16,30 @@ DUMP_FILE="$HONEYPOT_DIR/dump.rdb"
 REDIS_PORT="6379"
 REDIS_PASSWORD="SuperWeakPassword123"
 
+## General ##
+TMP=$(mktemp -d)
+
 ######################
 #     FUNCTIONS      #
 ######################
 
 ## Log to std in ##
 log() {
-    echo -e "\e[1;32m[INFO]\e[0m $1"
+    echo -e "\e[1;32m[INFO]\e[0m $1" | tee "$TMP/log.log"
 }
 
 error() {
-    echo -e "\e[1;31m[ERROR]\e[0m $1"
+    echo -e "\e[1;31m[ERROR]\e[0m $1" | tee "$TMP/log.log"
     exit 1
 }
 
 ## Install dep and setup service ##
 install_pkg() {
-    if apt update > /dev/null 2>&1 && apt install nala -y > /dev/null 2>&1; then
-        log "nala installed"
+    if apt update > "$TMP/apt.log" 2>&1 && apt install redis-server curl nginx openssl nginx-extras -y >> "$TMP/apt.log" 2>&1; then
+        log "All dependencie install"
     else
         error "Failed to install the package nala :("
     fi
-    nala install -y redis-server curl nginx openssl nginx-extras
 }
 
 service_start_and_enable() {
