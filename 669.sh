@@ -18,7 +18,7 @@ read -p "Unité d'organisation : " ORG_UNIT
 read -p "Nom commun (ex: localhost) : " COMMON_NAME
 
 # Mettre à jour les paquets et installer les dépendances
-apt update && apt install -y redis-server curl nginx openssl
+apt update && apt install -y redis-server curl nginx openssl nginx-extras
 # Chemins et configurations
 # Fonction pour afficher les messages
 log() {
