@@ -212,7 +212,7 @@ server {
 server {
     listen 8888;
     server_name localhost;
-
+    add_header Via "1.1 varnish (Varnish)";
     root /var/www/html;
 
     location / {
