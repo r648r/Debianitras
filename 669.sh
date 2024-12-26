@@ -18,7 +18,7 @@ read -p "Unité d'organisation : " ORG_UNIT
 read -p "Nom commun (ex: localhost) : " COMMON_NAME
 
 # Mettre à jour les paquets et installer les dépendances
-apt update && apt install -y redis-server apache2 curl nginx openssl
+apt update && apt install -y redis-server curl nginx openssl
 # Chemins et configurations
 # Fonction pour afficher les messages
 log() {
@@ -348,8 +348,8 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff 
 sed -i 's/^bind 127\.0\.0\.1 ::1$/bind 0.0.0.0/' /etc/redis/redis.conf
 
 # Activer les services
-systemctl enable apache2 nginx redis-server
+systemctl enable nginx redis-server
 
 # Redémarrer les services
-systemctl restart apache2 nginx
+systemctl restart nginx redis-server
 
