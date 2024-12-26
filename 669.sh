@@ -196,7 +196,7 @@ server {
 server {
     listen 5000;
     server_name localhost;
-
+    more_set_headers "Server: Apache (Debian)";
     root /var/www/html;
 
     location / {
@@ -228,7 +228,7 @@ server {
 server {
     listen 8989;
     server_name localhost;
-
+    more_set_headers "Server: Apache (Debian)";
     root /var/www/html;
 
     location / {
