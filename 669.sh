@@ -172,7 +172,6 @@ http {
 }
 EOL
 
-
 cat <<EOL > /etc/nginx/sites-available/notssl.conf
 server {
     listen 7000;
@@ -182,7 +181,7 @@ server {
     index index.php;
 
     location / {
-        rewrite ^.*$ /index.php redirect;
+        try_files \$uri /index.php;
     }
 
     add_header X-Powered-By "Symfony 2.7 / PHP 5.4.0";
@@ -201,7 +200,7 @@ server {
     root /var/www/html;
 
     location / {
-        rewrite ^.*$ /api-auth-error.html redirect;
+        try_files \$uri /api-auth-error.html;
     }
 
     error_page 401 /api-auth-error.html;
@@ -217,7 +216,7 @@ server {
     root /var/www/html;
 
     location / {
-        rewrite ^.*$ /api-auth-error.html redirect;
+        try_files \$uri /api-auth-error.html;
     }
 
     error_page 401 /api-auth-error.html;
@@ -233,7 +232,7 @@ server {
     root /var/www/html;
 
     location / {
-        rewrite ^.*$ /api-forbidden.html redirect;
+        try_files \$uri /api-forbidden.html;
     }
 
     error_page 403 /api-forbidden.html;
@@ -252,7 +251,7 @@ server {
     root /var/www/html;
 
     location / {
-        rewrite ^.*$ /api-forbidden.html redirect;
+        try_files \$uri /api-forbidden.html;
     }
 
     error_page 403 /api-forbidden.html;
@@ -271,7 +270,7 @@ server {
     root /var/www/html;
 
     location / {
-        rewrite ^.*$ /api-internal-error.html redirect;
+        try_files \$uri /api-internal-error.html;
     }
 
     error_page 500 /api-internal-error.html;
@@ -282,7 +281,6 @@ server {
 
 EOL
 
-# Créer la configuration du site Nginx
 cat <<EOL > /etc/nginx/sites-available/ssl.conf
 server {
     listen 7001 ssl;
@@ -336,6 +334,7 @@ server {
     add_header X-Forwarded-For \$remote_addr;
 }
 EOL
+
 
 # Activer le site Nginx
 ln -s /etc/nginx/sites-available/ssl.conf /etc/nginx/sites-enabled/
