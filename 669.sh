@@ -21,28 +21,33 @@ REDIS_PASSWORD="SuperWeakPassword123"
 ######################
 
 ## Log to std in ##
-log () {
+log() {
     echo -e "\e[1;32m[INFO]\e[0m $1"
 }
 
-error () {
+error() {
     echo -e "\e[1;31m[ERROR]\e[0m $1"
     exit 1
 }
 
 ## Install dep and setup service ##
-install_pkg () {
-    apt update && apt install -y redis-server curl nginx openssl nginx-extras
+install_pkg() {
+    if apt update > /dev/null 2>&1 && apt install nala -y > /dev/null 2>&1; then
+        log "nala installed"
+    else
+        error "Failed to install the package nala :("
+    fi
+    nala install -y redis-server curl nginx openssl nginx-extras
 }
 
-service_start_and_enable () {
+service_start_and_enable() {
     systemctl daemon-reload
     systemctl enable nginx redis-server
     systemctl restart nginx redis-server redis_honeypot redis     
 }
 
 ## Honey setup ##
-honey_redis () {
+honey_redis() {
     log "Création de l'utilisateur et du répertoire pour le honeypot..."
     useradd -r -s /bin/false $HONEYPOT_USER || log "Utilisateur existant."
     mkdir -p $HONEYPOT_DIR
@@ -120,7 +125,7 @@ EOL
     log "Honeypot Redis configuré avec succès !"
 }
 
-honey_nginx () {
+honey_nginx() {
     log "Create /etc/nginx/nginx.conf"
     cat <<EOL > /etc/nginx/nginx.conf
     user www-data;
@@ -314,7 +319,6 @@ EOL
     }
 EOL
 
-
     log "Enable site with ln -s"
     ln -s /etc/nginx/sites-available/ssl.conf /etc/nginx/sites-enabled/
     ln -s /etc/nginx/sites-available/notssl.conf /etc/nginx/sites-enabled/
@@ -325,7 +329,7 @@ EOL
     curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/fff > /var/www/html/api-forbidden.html
 }
 
-setup_ssl () {
+setup_ssl() {
     read -p "Pays (Code ISO) : " COUNTRY
     read -p "État : " STATE
     read -p "Ville : " CITY
@@ -337,19 +341,23 @@ setup_ssl () {
     mkdir -p /etc/ssl/certs /etc/ssl/private
 
     for PORT in 9091 9191 7001 5001; do
-        log "Creating SSL for $PORT"
-        openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+        if openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
             -keyout /etc/ssl/private/secure${PORT}.key \
             -out /etc/ssl/certs/secure${PORT}.crt \
-            -subj "/C=$COUNTRY/ST=$STATE/L=$CITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$COMMON_NAME"
+            -subj "/C=$COUNTRY/ST=$STATE/L=$CITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$COMMON_NAME"; then
+            log "Cert and key created $PORT."
+        else
+            error "Failed to create SSL for $PORT." >&2
+        fi
     done
+
 }
 
 #################
 #     MAIN      #
 #################
 
-install_pkg
 setup_ssl
-honey_redis
+install_pkg
 honey_nginx
+honey_redis
