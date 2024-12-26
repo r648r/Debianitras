@@ -240,45 +240,6 @@ server {
     access_log off;
     error_log /dev/null warn;
 }
-
-server {
-    listen 9091 ssl;
-    server_name localhost;
-
-    ssl_certificate /etc/ssl/certs/secure9091.crt;
-    ssl_certificate_key /etc/ssl/private/secure9091.key;
-
-    root /var/www/html;
-
-    location / {
-        try_files \$uri /api-forbidden.html;
-    }
-
-    error_page 403 /api-forbidden.html;
-
-    access_log off;
-    error_log /dev/null warn;
-}
-
-server {
-    listen 9191 ssl;
-    server_name localhost;
-
-    ssl_certificate /etc/ssl/certs/secure9191.crt;
-    ssl_certificate_key /etc/ssl/private/secure9191.key;
-
-    root /var/www/html;
-
-    location / {
-        try_files \$uri /api-internal-error.html;
-    }
-
-    error_page 500 /api-internal-error.html;
-
-    access_log off;
-    error_log /dev/null warn;
-}
-
 EOL
 
 cat <<EOL > /etc/nginx/sites-available/ssl.conf
@@ -333,6 +294,45 @@ server {
     add_header Via "1.1 varnish (Varnish/6.6)";
     add_header X-Forwarded-For \$remote_addr;
 }
+
+server {
+    listen 9091 ssl;
+    server_name localhost;
+
+    ssl_certificate /etc/ssl/certs/secure9091.crt;
+    ssl_certificate_key /etc/ssl/private/secure9091.key;
+
+    root /var/www/html;
+
+    location / {
+        try_files \$uri /api-forbidden.html;
+    }
+
+    error_page 403 /api-forbidden.html;
+
+    access_log off;
+    error_log /dev/null warn;
+}
+
+server {
+    listen 9191 ssl;
+    server_name localhost;
+
+    ssl_certificate /etc/ssl/certs/secure9191.crt;
+    ssl_certificate_key /etc/ssl/private/secure9191.key;
+
+    root /var/www/html;
+
+    location / {
+        try_files \$uri /api-internal-error.html;
+    }
+
+    error_page 500 /api-internal-error.html;
+
+    access_log off;
+    error_log /dev/null warn;
+}
+
 EOL
 
 
