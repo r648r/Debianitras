@@ -1,8 +1,7 @@
 #!/bin/bash
-if [ "$EUID" -ne 0 ]; then
-    echo "Veuillez exécuter ce script en tant que root."
-    exit
-fi
+[ "$EUID" -ne 0 ] && error "Veuillez exécuter ce script en tant que root."
+ping -c 1 8.8.8.8 > /dev/null 2>&1 || error "Pas de connexion Internet."
+ping -c  google.jp > /dev/null 2>&1 || error "La résolution des noms de domaine échoue."
 
 ######################
 #     CONSTANTES     #
@@ -16,30 +15,28 @@ DUMP_FILE="$HONEYPOT_DIR/dump.rdb"
 REDIS_PORT="6379"
 REDIS_PASSWORD="SuperWeakPassword123"
 
-## General ##
-TMP=$(mktemp -d)
-
 ######################
 #     FUNCTIONS      #
 ######################
 
 ## Log to std in ##
 log() {
-    echo -e "\e[1;32m[INFO]\e[0m $1" | tee "$TMP/log.log"
+    echo -e "\e[1;32m[INFO]\e[0m $1"
 }
 
 error() {
-    echo -e "\e[1;31m[ERROR]\e[0m $1" | tee "$TMP/log.log"
+    echo -e "\e[1;31m[ERROR]\e[0m $1"
     exit 1
 }
 
 ## Install dep and setup service ##
 install_pkg() {
-    if apt update > "$TMP/apt.log" 2>&1 && apt install redis-server curl nginx openssl nginx-extras -y >> "$TMP/apt.log" 2>&1; then
-        log "All dependencie install"
+    if apt update > /dev/null 2>&1 && apt install nala -y > /dev/null 2>&1; then
+        log "nala installed"
     else
         error "Failed to install the package nala :("
     fi
+    nala install -y redis-server curl nginx openssl nginx-extras
 }
 
 service_start_and_enable() {
