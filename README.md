@@ -1,13 +1,13 @@
-# kali
+```
 alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
-
+arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -t 10 --rate-limit 10 --headers 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' --stable
+```
 
 ```
-s $(go env GOPATH)/bin
-mkdir ~/go-binaries-export
-cp $(go env GOPATH)/bin/* ~/go-binaries-export/
-tar -czvf go-binaries-export.tar.gz -C ~/go-binaries-export .
-
+alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
+pdtm -bp $(go env GOPATH)/bin -ua
+pdtm -bp $(go env GOPATH)/bin -ia
+export PATH=$PATH:$(go env GOPATH)/bin
 ```
 
 # Debianitras
