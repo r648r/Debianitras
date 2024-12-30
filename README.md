@@ -27,6 +27,17 @@ ffuf -w $(fzf-wordlists) -u http://www.razer.com/.ssh/FUZZ -fc 400,401,402,403,4
 alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
 ```
 
+## systemctl
+```
+sudo systemctl --failed
+sudo systemctl list-units --type=service
+sudo systemctl list-units --type=service --state=active
+
+sudo systemctl list-dependencies nom_du_service
+sudo systemctl set-default multi-user.target
+```
+
+
 # Debianitras
 ```
 # Define the path to your custom alias file
