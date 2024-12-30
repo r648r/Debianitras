@@ -33,8 +33,10 @@ sudo systemctl --failed
 sudo systemctl list-units --type=service
 sudo systemctl list-units --type=service --state=active
 
-sudo systemctl list-dependencies nom_du_service
+sudo systemctl list-dependencies nginx
 sudo systemctl set-default multi-user.target
+sudo systemctl isolate multi-user.target
+
 ```
 
 
