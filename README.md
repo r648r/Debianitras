@@ -12,6 +12,7 @@ go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
 pdtm -bp $(go env GOPATH)/bin -ua
 pdtm -bp $(go env GOPATH)/bin -ia
 export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOBIN)
 ```
 
 
