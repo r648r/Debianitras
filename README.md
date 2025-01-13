@@ -1,4 +1,6 @@
-## Update
+## Install and update
+
+### GO
 ```
 asdf plugin add golang
 asdf install golang latest
@@ -18,6 +20,17 @@ pdtm -bp $(go env GOPATH)/bin -ua
 pdtm -bp $(go env GOPATH)/bin -ia
 ```
 
+### VsCode
+```
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+install -o root -g root -m 644 microsoft.gpg /etc/apt/keyrings/microsoft-archive-keyring.gpg
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+apt update
+mkdir /vscode
+useradd -m -u 1420 vs
+chown vs:vs /vscode
+sudo -u vs -H bash -c "cd /vscode && code --no-sandbox --user-data-dir=/vscode"
+```
 
 ## Cheat Sheet
 ```
@@ -57,6 +70,7 @@ alias fzf-w="find /opt/SecLists/ /opt/payloads/ -type f -name '*.txt' | fzf"
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias apt='nala'
 alias sudo='sudo '
+
 EOL
 
 # Check if the alias file is already sourced in .zshrc
