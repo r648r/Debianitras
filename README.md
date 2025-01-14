@@ -42,6 +42,7 @@ ffuf -w $(fzf-wordlists) -u http://www.razer.com/.ssh/FUZZ -fc 400,401,402,403,4
 
 ```
 alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
+alias gitssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/github'
 ```
 
 ## systemctl
