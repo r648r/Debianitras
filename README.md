@@ -11,6 +11,7 @@ alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate 
 alias apt='nala'
 alias vs='code-server'
 EOL
+source $HOME/.zshrc
 ```
 
 ### GO
