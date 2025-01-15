@@ -42,7 +42,7 @@ sudo -u vs -H bash -c "cd /vscode && code --no-sandbox --user-data-dir=/vscode"
 ### Exegol
 ```
 printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
-sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc && ~/.zshrc
+sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc && source ~/.zshrc
 ```
 
 ## Cheat Sheet
