@@ -7,8 +7,7 @@ asdf install golang latest
 asdf global golang latest
 asdf reshim
 
-export PATH=$PATH:$(go env GOPATH)/bin
-export PATH=$PATH:$(go env GOBIN)
+export PATH=$PATH:$GOBIN
 export GO111MODULE=on
 
 echo 'export PATH=$PATH:$(go env GOPATH)/bin' > $HOME/.zshrc && source $HOME/.zshrc
