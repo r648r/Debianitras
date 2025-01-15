@@ -5,7 +5,8 @@
 asdf plugin add golang
 asdf install golang latest
 asdf global golang latest
-go version
+asdf reshim
+
 export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:$(go env GOBIN)
 export GO111MODULE=on
