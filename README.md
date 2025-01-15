@@ -1,5 +1,18 @@
 ## Install and update
 
+### Alias 
+```
+cat <<EOL >> $HOME/.zshrc
+# Custom aliases
+alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
+alias fzf-n='find /opt/nuclei-templates/coffinxp/ -type f -name "*.y*" | fzf'
+alias fzf-w='find /opt/SecLists/ /opt/payloads/ -type f -name "*.txt" | fzf'
+alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
+alias apt='nala'
+alias vs='code-server'
+EOL
+```
+
 ### GO
 ```
 asdf plugin add golang
@@ -22,20 +35,13 @@ go install -v github.com/hahwul/dalfox/v2@latest
 go install -v github.com/003random/getJS/v2@latest
 go install -v github.com/jaeles-project/gospider@latest
 
-pdtm -bp $(go env GOPATH)/bin -ua
-pdtm -bp $(go env GOPATH)/bin -ia
+pdtm -bp /root/.asdf/shims/ -ua
+pdtm -bp /root/.asdf/shims/ -ia
 ```
 
 ### VsCode
 ```
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-install -o root -g root -m 644 microsoft.gpg /etc/apt/keyrings/microsoft-archive-keyring.gpg
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-apt update
-mkdir /vscode
-useradd -m -u 1420 vs
-chown vs:vs /vscode
-sudo -u vs -H bash -c "cd /vscode && code --no-sandbox --user-data-dir=/vscode"
+curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
 ### Exegol
@@ -73,10 +79,7 @@ sudo systemctl isolate multi-user.target
 # Debianitras
 ```
 # Define the path to your custom alias file
-ALIAS_FILE="$HOME/.zsh_aliases_custom"
-
-# Create or overwrite the alias file with your current aliases
-cat <<EOL > $ALIAS_FILE
+cat <<EOL > $HOME/.zshrc
 # Custom aliases
 alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
 alias fzf-n="find /opt/nuclei-templates/ coffinxp/ -type f -name "*.y*" | fzf"
@@ -84,7 +87,6 @@ alias fzf-w="find /opt/SecLists/ /opt/payloads/ -type f -name '*.txt' | fzf"
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias apt='nala'
 alias sudo='sudo '
-
 EOL
 
 # Check if the alias file is already sourced in .zshrc
