@@ -8,15 +8,19 @@ asdf global golang latest
 go version
 export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:$(go env GOBIN)
+export GO111MODULE=on
 
 echo 'export PATH=$PATH:$(go env GOPATH)/bin' > $HOME/.zshrc && source $HOME/.zshrc
-echo 'export PATH=$PATH:$(go env GOBIN)' > $HOME/.zshrc && source $HOME/.zshrc
+echo 'export PATH=$PATH:$(go env GOBIN)' >> $HOME/.zshrc && source $HOME/.zshrc
+echo 'GO111MODULE=on' >> $HOME/.zshrc && source $HOME/.zshrc
 
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/tomnomnom/anew@latest
 go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
 go install -v github.com/tomnomnom/qsreplace@latest
 go install -v github.com/hahwul/dalfox/v2@latest
+go install -v github.com/003random/getJS/v2@latest
+go install -v github.com/jaeles-project/gospider@latest
 
 pdtm -bp $(go env GOPATH)/bin -ua
 pdtm -bp $(go env GOPATH)/bin -ia
