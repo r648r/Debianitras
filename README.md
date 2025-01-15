@@ -15,7 +15,8 @@ echo 'export PATH=$PATH:$(go env GOBIN)' > $HOME/.zshrc && source $HOME/.zshrc
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/tomnomnom/anew@latest
 go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
-go install github.com/hahwul/dalfox/v2@latest
+go install -v github.com/tomnomnom/qsreplace@latest
+go install -v github.com/hahwul/dalfox/v2@latest
 
 pdtm -bp $(go env GOPATH)/bin -ua
 pdtm -bp $(go env GOPATH)/bin -ia
