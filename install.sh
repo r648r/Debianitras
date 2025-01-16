@@ -17,14 +17,13 @@ mkdir -p "$TOOLS_DIR"
 ############################################
 # 3) Nettoyage et configurations
 ############################################
-echo "[*] Suppression des alias gf= et des variables superflues"
+echo "[*] Déplacement des patterns gFpattren vers ~/.gf"
 sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
 mkdir -p "$HOME/.gf"
 git clone "https://github.com/coffinxp/gFpattren.git" "$TMP/gFpattren"
 mv "$TMP/gFpattren/"* "$HOME/.gf" 
 rm -rf "$TMP"
 
-echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
 
 
 ############################################
