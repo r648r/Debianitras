@@ -19,12 +19,13 @@ mkdir -p "$TOOLS_DIR"
 ############################################
 echo "[*] Suppression des alias gf= et des variables superflues"
 sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
-sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
-
-echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
 mkdir -p "$HOME/.gf"
+git clone "https://github.com/coffinxp/gFpattren.git" "$TMP/gFpattren"
 mv "$TMP/gFpattren/"* "$HOME/.gf" 
 rm -rf "$TMP"
+
+echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
+
 
 ############################################
 # 4) Téléchargements avec curl
@@ -88,6 +89,7 @@ EOL
 # 8) Rechargement de la config
 ############################################
 echo "[*] Rechargement de ~/.zshrc..."
+sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
 source "$HOME/.zshrc"
 
 echo "[✓] Installation terminée !"
