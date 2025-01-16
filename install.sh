@@ -55,8 +55,8 @@ clone_or_update() {
       git pull --rebase
     )
   else
-    echo "[*] Clonage de '$repo_url' vers '$target_dir'..."
-    git clone "$repo_url" "$target_dir"
+    echo "[*] Clonage de '\$repo_url' vers '\$target_dir'..."
+    git clone "\$repo_url" "\$target_dir"
   fi
 }
 
