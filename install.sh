@@ -45,8 +45,8 @@ alias ut='nuclei -update-templates && cd /root/nuclei-templates/coffinxp && pull
 # Update
 clone_or_update() {
   # Clone ou met à jour un dépôt Git
-  local repo_url="$1"
-  local target_dir="$2"
+  local repo_url="\$1"
+  local target_dir="\$2"
 
   if [ -d "$target_dir/.git" ]; then
     echo "[!] '$target_dir' existe déjà, mise à jour avec git pull..."
