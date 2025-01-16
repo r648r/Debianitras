@@ -24,8 +24,6 @@ git clone "https://github.com/coffinxp/gFpattren.git" "$TMP/gFpattren"
 mv "$TMP/gFpattren/"* "$HOME/.gf" 
 rm -rf "$TMP"
 
-
-
 ############################################
 # 4) Téléchargements avec curl
 ############################################
@@ -37,7 +35,7 @@ echo "[*] Installation de code-server..."
 curl -fsSL https://code-server.dev/install.sh | sh
 
 ############################################
-# 6) Ajout d'aliases dans ~/.zshrc
+#5) Ajout d'aliases dans ~/.zshrc
 ############################################
 echo "[*] Mise à jour de ~/.zshrc avec de nouveaux alias..."
 cat <<EOL >> "$HOME/.zshrc"
@@ -47,8 +45,9 @@ TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
 TOOLS_DIR="/root/Tools"
 
 # Custom aliases
-alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
-alias fzf-n='find /root/nuclei-templates/ -type f -name "*.y*" | fzf'
+alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f -not -path "*/.git/*" | fzf'
+alias fzf-w=fzf-wordlists
+alias fzf-n='find /root/nuclei-templates/ -type f -name "*.y*" -not -path "*/.git/*" | fzf'
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias gitssh='eval \$(ssh-agent -s) && ssh-add ~/.ssh/github'
 alias vs='code-server'
