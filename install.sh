@@ -1,15 +1,18 @@
 ############################################
 # 1) Variables et dossiers
 ############################################
+TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
+TOOLS_DIR="/root/Tools"
+TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
 
 ############################################
 # 2) Création des répertoires
 ############################################
 echo "[*] Création des répertoires..."
-sudo mkdir "$(mktemp -d)"
-sudo mkdir -p "$TARGET_WORDLISTS"
-sudo mkdir -p "$TARGET_NUCLEI"
-sudo mkdir -p "$TOOLS_DIR"
+mkdir "$(mktemp -d)"
+mkdir -p "$TARGET_WORDLISTS"
+mkdir -p "$TARGET_NUCLEI"
+mkdir -p "$TOOLS_DIR"
 
 ############################################
 # 3) Téléchargements avec curl
@@ -26,7 +29,6 @@ curl -fsSL https://code-server.dev/install.sh | sh
 ############################################
 echo "[*] Mise à jour de ~/.zshrc avec de nouveaux alias..."
 cat <<EOL >> "$HOME/.zshrc"
-
 # ENV
 TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
 TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
