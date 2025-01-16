@@ -25,7 +25,7 @@ go install github.com/jaeles-project/jaeles@latest
 
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
-nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp'
+nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp
 ```
 
 ### VsCode
