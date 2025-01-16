@@ -1,10 +1,5 @@
 ## Install and update
 
-### ZSHRC + Wordlist 
-```bash
-curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/install.sh|bash && source $HOME/.zshrc
-```
-
 ### GO
 ```bash
 asdf plugin add golang
@@ -26,6 +21,11 @@ go install github.com/jaeles-project/jaeles@latest
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
 nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp
+```
+
+### ZSHRC + Wordlist 
+```bash
+curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/install.sh|bash && source $HOME/.zshrc
 ```
 
 ### VsCode
