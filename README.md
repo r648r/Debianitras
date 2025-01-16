@@ -5,9 +5,6 @@
 ############################################
 # 1) Variables et dossiers
 ############################################
-TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
-TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
-TOOLS_DIR="/root/Tools"
 
 ############################################
 # 2) Création des répertoires
@@ -33,6 +30,12 @@ curl -fsSL https://code-server.dev/install.sh | sh
 ############################################
 echo "[*] Mise à jour de ~/.zshrc avec de nouveaux alias..."
 cat <<EOL >> "$HOME/.zshrc"
+
+# ENV
+TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
+TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
+TOOLS_DIR="/root/Tools"
+
 # Custom aliases
 alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
 alias fzf-n='find /root/nuclei-templates/ -type f -name "*.y*" | fzf'
