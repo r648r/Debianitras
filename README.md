@@ -1,32 +1,51 @@
 ## Install and update
 
-### Alias 
-```
+### ZSHRC + Wordlist 
+```bash
+TMP="$(mktemp -d)"
+
+mkdir -p /usr/share/wordlists/coffinxp
+mkdir -p root/nuclei-templates/coffinxp
+mkdir /root/Tools
+
+curl -s https://raw.githubusercontent.com/coffinxp/loxs/refs/heads/main/payloads/sqli/xor.txt > /usr/share/wordlists/coffinxp/xor-sqli.txt
+curl -s https://raw.githubusercontent.com/coffinxp/loxs/refs/heads/main/filter.sh -o  /root/Tools/filter.sh
+curl -fsSL https://code-server.dev/install.sh | sh
+
+git clone https://github.com/coffinxp/gFpattren.git "$TMP"
+git clone https://github.com/coffinxp/payloads.git /usr/share/wordlists/coffinxp
+git clone https://github.com/coffinxp/oneListForall /usr/share/wordlists/coffinxp
+git clone https://github.com/coffinxp/img-payloads /usr/share/wordlists/coffinxp
+git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp
+
 cat <<EOL >> $HOME/.zshrc
 # Custom aliases
 alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
-alias fzf-n='find /opt/nuclei-templates/coffinxp/ -type f -name "*.y*" | fzf'
-alias fzf-w='find /opt/SecLists/ /opt/payloads/ -type f -name "*.txt" | fzf'
+alias fzf-n='find /root/nuclei-templates/  -type f -name "*.y*" | fzf'
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
-alias apt='nala'
-alias vs='code-server &> /dev/null &'
+alias gitssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/github'
+alias vs='code-server'
+alias ut='nuclei -update-templates && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp'
+
+# Warp
+printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 EOL
+
+sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
+sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc && source ~/.zshrc
+mv $TMP/gFpattren/* $HOME/.gf
+rm -rf "$TMP"
 source $HOME/.zshrc
 ```
 
 ### GO
-```
+```bash
 asdf plugin add golang
 asdf install golang latest
-asdf global golang latest
 asdf reshim
 
-export PATH=$PATH:$GOBIN
-export GO111MODULE=on
-
-echo 'export PATH=$PATH:$(go env GOPATH)/bin' > $HOME/.zshrc && source $HOME/.zshrc
-echo 'export PATH=$PATH:$(go env GOBIN)' >> $HOME/.zshrc && source $HOME/.zshrc
-echo 'GO111MODULE=on' >> $HOME/.zshrc && source $HOME/.zshrc
+echo 'export PATH=$PATH:$GOBIN' >> $HOME/.zshrc && source $HOME/.zshrc
+echo 'export GO111MODULE=on' >> $HOME/.zshrc && source $HOME/.zshrc
 
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/tomnomnom/anew@latest
@@ -39,30 +58,19 @@ go install github.com/jaeles-project/jaeles@latest
 
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
+nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp'
 ```
 
 ### VsCode
-```
+```bash
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
-### Exegol
-```
-printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
-sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
-sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc && source ~/.zshrc
-```
-
 ## Cheat Sheet
-```
-python3 corsy.py -i /path/urls.txt --headers "User-Agent: GoogleBot\nCookie: SESSION=Hacked"
+```bash
+python3 corsy.py -i /path/urls.txt --headers "User-Agent: GoogleBot\nCookie: SESSION=ffffffffffffffff"
 arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -t 10 --rate-limit 10 --headers 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' --stable
-ffuf -w $(fzf-wordlists) -u http://www.razer.com/.ssh/FUZZ -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
-```
-
-```
-alias kali='sudo ssh -i ~/.ssh/raphael_ssh_ldlc_ecdsa -p 6941 raph@192.168.222.129 -L 420:127.0.0.1:420'
-alias gitssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/github'
+ffuf -w $(fzf-wordlists) -u $URL -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
 ```
 
 ## systemctl
@@ -77,29 +85,6 @@ sudo systemctl isolate multi-user.target
 
 ```
 
-
-# Debianitras
-```
-# Define the path to your custom alias file
-cat <<EOL > $HOME/.zshrc
-# Custom aliases
-alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f | fzf'
-alias fzf-n="find /opt/nuclei-templates/ coffinxp/ -type f -name "*.y*" | fzf"
-alias fzf-w="find /opt/SecLists/ /opt/payloads/ -type f -name '*.txt' | fzf"
-alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
-alias apt='nala'
-alias sudo='sudo '
-EOL
-
-# Check if the alias file is already sourced in .zshrc
-if ! grep -q "source $ALIAS_FILE" "$HOME/.zshrc"; then
-  # If not, add the source command to .zshrc
-  echo "source $ALIAS_FILE" >> "$HOME/.zshrc"
-fi
-
-# Reload .zshrc to apply the changes immediately
-source "$HOME/.zshrc"
-```
 
 /etc/systemd/system/update-issue-ip.service
 ```
