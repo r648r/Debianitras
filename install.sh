@@ -9,13 +9,25 @@ TMP="$(mktemp -d)"
 ############################################
 # 2) Création des répertoires
 ############################################
-echo "[*] Création des répertoires..."
+echo "[*] Création des répertoires"
 mkdir -p "$TARGET_WORDLISTS"
 mkdir -p "$TARGET_NUCLEI"
 mkdir -p "$TOOLS_DIR"
 
 ############################################
-# 3) Téléchargements avec curl
+# 3) Nettoyage et configurations
+############################################
+echo "[*] Suppression des alias gf= et des variables superflues"
+sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
+sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
+
+echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
+mkdir -p "$HOME/.gf"
+mv "$TMP/gFpattren/"* "$HOME/.gf" 
+rm -rf "$TMP"
+
+############################################
+# 4) Téléchargements avec curl
 ############################################
 echo "[*] Téléchargement curl"
 curl -s https://raw.githubusercontent.com/coffinxp/loxs/refs/heads/main/payloads/sqli/xor.txt > "$TARGET_WORDLISTS/xor-sqli.txt"
@@ -70,17 +82,7 @@ clone_or_update "https://github.com/coffinxp/nuclei-templates.git" "$TARGET_NUCL
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 EOL
 
-############################################
-# 7) Nettoyage et configurations
-############################################
-echo "[*] Suppression des alias gf= et des variables superflues..."
-sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
-sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
 
-echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
-mkdir -p "$HOME/.gf"
-mv "$TMP/gFpattren/"* "$HOME/.gf" 
-rm -rf "$TMP"
 
 ############################################
 # 8) Rechargement de la config
