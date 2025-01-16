@@ -39,7 +39,7 @@ alias fzf-n='find /root/nuclei-templates/ -type f -name "*.y*" | fzf'
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias gitssh='eval \$(ssh-agent -s) && ssh-add ~/.ssh/github'
 alias vs='code-server'
-alias ut='nuclei -update-templates && cd /root/nuclei-templates/coffinxp && pull --rebase && cd
+alias ut='nuclei -update-templates && cd /root/nuclei-templates/coffinxp && pull --rebase && cd'
 
 # Update
 clone_or_update() {
