@@ -9,7 +9,7 @@ alias fzf-n='find /opt/nuclei-templates/coffinxp/ -type f -name "*.y*" | fzf'
 alias fzf-w='find /opt/SecLists/ /opt/payloads/ -type f -name "*.txt" | fzf'
 alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate -s 0 {}'
 alias apt='nala'
-alias vs='vs &> /dev/null &'
+alias vs='code-server &> /dev/null &'
 EOL
 source $HOME/.zshrc
 ```
