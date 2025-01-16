@@ -4,12 +4,12 @@
 TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
 TOOLS_DIR="/root/Tools"
 TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
+TMP="$(mktemp -d)"
 
 ############################################
 # 2) Création des répertoires
 ############################################
 echo "[*] Création des répertoires..."
-mkdir "$(mktemp -d)"
 mkdir -p "$TARGET_WORDLISTS"
 mkdir -p "$TARGET_NUCLEI"
 mkdir -p "$TOOLS_DIR"
@@ -48,10 +48,10 @@ clone_or_update() {
   local repo_url="\$1"
   local target_dir="\$2"
 
-  if [ -d "$target_dir/.git" ]; then
-    echo "[!] '$target_dir' existe déjà, mise à jour avec git pull..."
+  if [ -d "\$target_dir/.git" ]; then
+    echo "[!] '\$target_dir' existe déjà, mise à jour avec git pull..."
     (
-      cd "$target_dir"
+      cd "\$target_dir"
       git pull --rebase
     )
   else
@@ -74,12 +74,12 @@ EOL
 # 7) Nettoyage et configurations
 ############################################
 echo "[*] Suppression des alias gf= et des variables superflues..."
-sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh 2>/dev/null || true
+sed -i '/^alias gf=/d' /root/.oh-my-zsh/plugins/git/git.plugin.zsh
 sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
 
 echo "[*] Déplacement des patterns gFpattren vers ~/.gf..."
 mkdir -p "$HOME/.gf"
-mv "$TMP/gFpattren/"* "$HOME/.gf" 2>/dev/null || true
+mv "$TMP/gFpattren/"* "$HOME/.gf" 
 rm -rf "$TMP"
 
 ############################################
