@@ -12,7 +12,7 @@ wbm(){
     | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | uro | tee -a wb.txt
   done < $1
   cat wb.txt | wc -l
-  echo "Le fichier wb.txt contient \$(cat wb.txt | wc -l) ligne soit \$(du -h wb.txt)"
+  echo "Le fichier wb.txt contient $(cat wb.txt | wc -l) ligne soit $(du -h wb.txt)"
 }
 
 cat wb.txt | grep -Eo '\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|zip|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)\$'
