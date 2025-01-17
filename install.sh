@@ -40,9 +40,9 @@ curl -fsSL https://code-server.dev/install.sh | sh
 echo "[*] Mise à jour de ~/.zshrc avec de nouveaux alias..."
 cat <<EOL >> "$HOME/.zshrc"
 # ENV
-TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
-TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
-TOOLS_DIR="/root/Tools"
+export TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
+export TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
+export TOOLS_DIR="/root/Tools"
 
 # Custom aliases
 alias fzf-wordlists='find /opt/rockyou.txt /opt/seclists /usr/share/wordlists /usr/share/wfuzz /usr/share/dirb -type f -not -path "*/.git/*" | fzf'
@@ -74,20 +74,23 @@ clone_or_update() {
 wbm(){
   while read -r d; do
     curl -sG "https://web.archive.org/cdx/search/cdx" \
-      --data-urlencode "url=*.$d/*" \
+      --data-urlencode "url=*.\$d/*" \
       --data-urlencode "collapse=urlkey" \
       --data-urlencode "output=text" \
       --data-urlencode "fl=original" \
     | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif)$' | tee -a wb.txt
-  done < $1
-  cat wb.txt | wc -l
+  done < \$1
+  
+  echo "Le fichier wb.txt contient \$(cat wb.txt | wc -l) ligne soit \$(du -h wb.txt)"
   echo "cat wb.txt | uro | grep -E '\.xls|\.xml|\.xlsx|\.json|\.pdf|\.sql|\.doc|\.docx|\.pptx|\.txt|\.zip|\.tar\.gz|\.tgz|\.bak|\.7z|\.rar|\.log|\.cache|\.secret|\.db|\.backup|\.yml|\.gz|\.config|\.csv|\.yaml|\.md|\.md5|\.exe|\.dll|\.bin|\.ini|\.bat|\.sh|\.tar|\.deb|\.rpm|\.iso|\.img|\.apk|\.msi|\.dmg|\.tmp|\.crt|\.pem|\.key|\.pub|\.asc'"
 }
 
-clone_or_update "https://github.com/coffinxp/payloads.git" "$TARGET_WORDLISTS/payloads"
-clone_or_update "https://github.com/coffinxp/oneListForall.git" "$TARGET_WORDLISTS/oneListForall"
-clone_or_update "https://github.com/coffinxp/img-payloads.git" "$TARGET_WORDLISTS/img-payloads"
-clone_or_update "https://github.com/coffinxp/nuclei-templates.git" "$TARGET_NUCLEI"
+up(){
+  clone_or_update "https://github.com/coffinxp/payloads.git" "$TARGET_WORDLISTS/payloads"
+  clone_or_update "https://github.com/coffinxp/oneListForall.git" "$TARGET_WORDLISTS/oneListForall"
+  clone_or_update "https://github.com/coffinxp/img-payloads.git" "$TARGET_WORDLISTS/img-payloads"
+  clone_or_update "https://github.com/coffinxp/nuclei-templates.git" "$TARGET_NUCLEI"
+}
 
 # Warp
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
@@ -101,5 +104,5 @@ EOL
 echo "[*] Rechargement de ~/.zshrc..."
 sed -i '/^TIME_=/d; /^PROMPT=/d' ~/.zshrc
 source "$HOME/.zshrc"
-
+up
 echo "[✓] Installation terminée !"
