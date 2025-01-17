@@ -53,7 +53,7 @@ alias gitssh='eval \$(ssh-agent -s) && ssh-add ~/.ssh/github'
 alias vs='code-server'
 alias ut='nuclei -update-templates && cd /root/nuclei-templates/coffinxp && pull --rebase && cd'
 
-# Update
+# Tools
 clone_or_update() {
   # Clone ou met à jour un dépôt Git
   local repo_url="\$1"
@@ -69,6 +69,19 @@ clone_or_update() {
     echo "[*] Clonage de '\$repo_url' vers '\$target_dir'..."
     git clone "\$repo_url" "\$target_dir"
   fi
+}
+
+wbm(){
+  while read -r d; do
+    curl -sG "https://web.archive.org/cdx/search/cdx" \
+      --data-urlencode "url=*.$d/*" \
+      --data-urlencode "collapse=urlkey" \
+      --data-urlencode "output=text" \
+      --data-urlencode "fl=original" \
+    | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif)$' | tee -a wb.txt
+  done < $1
+  cat wb.txt | wc -l
+  echo "cat wb.txt | uro | grep -E '\.xls|\.xml|\.xlsx|\.json|\.pdf|\.sql|\.doc|\.docx|\.pptx|\.txt|\.zip|\.tar\.gz|\.tgz|\.bak|\.7z|\.rar|\.log|\.cache|\.secret|\.db|\.backup|\.yml|\.gz|\.config|\.csv|\.yaml|\.md|\.md5|\.exe|\.dll|\.bin|\.ini|\.bat|\.sh|\.tar|\.deb|\.rpm|\.iso|\.img|\.apk|\.msi|\.dmg|\.tmp|\.crt|\.pem|\.key|\.pub|\.asc'"
 }
 
 clone_or_update "https://github.com/coffinxp/payloads.git" "$TARGET_WORDLISTS/payloads"
