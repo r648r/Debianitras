@@ -9,7 +9,7 @@ wbm(){
       --data-urlencode "collapse=urlkey" \
       --data-urlencode "output=text" \
       --data-urlencode "fl=original" \
-    | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | tee -a wb.txt
+    | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | uro | tee -a wb.txt
   done < $1
   cat wb.txt | wc -l
   echo "cat wb.txt | uro | grep -E '\.xls|\.xml|\.xlsx|\.json|\.pdf|\.sql|\.doc|\.docx|\.pptx|\.txt|\.zip|\.tar\.gz|\.tgz|\.bak|\.7z|\.rar|\.log|\.cache|\.secret|\.db|\.backup|\.yml|\.gz|\.config|\.csv|\.yaml|\.md|\.md5|\.exe|\.dll|\.bin|\.ini|\.bat|\.sh|\.tar|\.deb|\.rpm|\.iso|\.img|\.apk|\.msi|\.dmg|\.tmp|\.crt|\.pem|\.key|\.pub|\.asc'"
