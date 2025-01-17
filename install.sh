@@ -71,7 +71,6 @@ clone_or_update() {
   fi
 }
 
-clone_or_update "https://github.com/coffinxp/gFpattren.git" "$TMP/gFpattren"
 clone_or_update "https://github.com/coffinxp/payloads.git" "$TARGET_WORDLISTS/payloads"
 clone_or_update "https://github.com/coffinxp/oneListForall.git" "$TARGET_WORDLISTS/oneListForall"
 clone_or_update "https://github.com/coffinxp/img-payloads.git" "$TARGET_WORDLISTS/img-payloads"
