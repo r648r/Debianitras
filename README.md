@@ -1,7 +1,20 @@
 ## Install and update
 
 ### Tools
+
+
+
+
 ```bash
+getip() {
+    while read -r domain; do
+        ips=$(dig @172.23.40.204 +short "$domain" A)
+        if [[ -n "$ips" ]]; then
+            echo "$domain $ips" | tr '\n' ' ' | sed 's/ $/\n/' | anew dns-ip.txt
+        fi
+    done < "$1"
+}
+
 wbm(){
   while read -r d; do
     curl -sG "https://web.archive.org/cdx/search/cdx" \
@@ -55,6 +68,9 @@ curl -fsSL https://code-server.dev/install.sh | sh
 
 ## Cheat Sheet
 ```bash
+# AD
+ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
+
 # HTTP
 httpx -ports https:443,http:80,http:8080,https:8080,http:9090,https:9090,https:8443 -follow-redirects -threads 100 -td | tee td-urls.txt
 cat td-urls.txt | grep "200" | awk '{print $1}' | sort -u | katana -d 5 -kf -jsl -jc -fx -ef woff,css,png,svg,jpg,woff2,jpeg,gif,svg -o crawl.txt -rl 60 | tee katana-crawl.txt
