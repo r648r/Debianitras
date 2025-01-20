@@ -8,7 +8,7 @@
 ```bash
 getip() {
     while read -r domain; do
-        ips=$(dig @172.23.40.204 +short "$domain" A)
+        ips=$(dig @DNS +short "$domain" A)
         if [[ -n "$ips" ]]; then
             echo "$domain $ips" | tr '\n' ' ' | sed 's/ $/\n/' | anew dns-ip.txt
         fi
