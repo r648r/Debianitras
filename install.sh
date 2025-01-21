@@ -39,6 +39,9 @@ curl -fsSL https://code-server.dev/install.sh | sh
 ############################################
 echo "[*] Mise à jour de ~/.zshrc avec de nouveaux alias..."
 cat <<EOL >> "$HOME/.zshrc"
+# Warp
+printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
+
 # ENV
 export TARGET_WORDLISTS="/usr/share/wordlists/coffinxp"
 export TARGET_NUCLEI="/root/nuclei-templates/coffinxp"
@@ -91,9 +94,6 @@ up(){
   clone_or_update "https://github.com/coffinxp/img-payloads.git" "$TARGET_WORDLISTS/img-payloads"
   clone_or_update "https://github.com/coffinxp/nuclei-templates.git" "$TARGET_NUCLEI"
 }
-
-# Warp
-printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 EOL
 
 
