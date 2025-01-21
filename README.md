@@ -68,7 +68,15 @@ curl -fsSL https://code-server.dev/install.sh | sh
 
 ## Cheat Sheet
 ```bash
-# AD
+# Interne
+nmap -v --privileged -n -PE \
+-PS21-23,25,53,80,88,110-111,113,115,135,139,143,220,264,389,443,445,449,524,585,636,993,995,1433,1521,1723,3306,3389,5900,8080,9100 \
+-PU53,67-69,111,123,135,137-139,161-162,445,500,514,520,631,1434,1701,1900,4500,5353,49152 \
+-sS -sU \
+-p T:21-23,25,80,110,113,115,139,143,220,264,443,445,449,524,585,993,995,1433,1521,1723,8080,9100,U:123,2049,69,161,500,1900,5353 \
+--max-retries 3 --min-rtt-timeout 100ms --max-rtt-timeout 1250ms --initial-rtt-timeout 100ms \
+--defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover $NETID
+
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
 # HTTP
