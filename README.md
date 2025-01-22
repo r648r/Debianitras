@@ -80,7 +80,7 @@ nmap -v --privileged -n -PE \
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
 # HTTP
-httpx -ports https:443,http:80,http:8080,https:8080,http:9090,https:9090,https:8443,https:9443 -follow-redirects -threads 100 -td | tee td-urls.txt
+httpx -ip -sc -fr -td -title -ports http:80,https:443,http:8080,https:8080,http:8081,https:8081,http:9090,https:9091,http:9091,https:9091,https:4443,https:8443,https:9443 -random-agent -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -threads 100 | anew td-urls.txt
 cat td-urls.txt | grep "200" | awk '{print $1}' | sort -u | katana -d 5 -kf -jsl -jc -fx -ef woff,css,png,svg,jpg,woff2,jpeg,gif,svg -o crawl.txt -rl 60 | tee katana-crawl.txt
 arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -t 10 --rate-limit 10 --headers 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' --stable
 ffuf -w $(fzf-wordlists) -u $URL -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
