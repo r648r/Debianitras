@@ -34,6 +34,8 @@ curl -s https://raw.githubusercontent.com/coffinxp/loxs/refs/heads/main/filter.s
 echo "[*] Installation de code-server..."
 curl -fsSL https://code-server.dev/install.sh | sh
 
+npm install broken-link-checker -g
+
 ############################################
 #5) Ajout d'aliases dans ~/.zshrc
 ############################################
