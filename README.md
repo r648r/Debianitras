@@ -30,7 +30,9 @@ wbm(){
 
 cat wb.txt | grep -Eo '\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|zip|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$'
 cat wb.txt | sort -u | uro | grep -Eo '\.(xls|xml|xlsx|json|
-pdf|sql|doc|docx|pptx|txt|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$' | sort | uniq -c | sort -rn﻿﻿﻿
+pdf|sql|doc|docx|pptx|txt|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$' | sort | uniq -c | sort -rn
+
+curl "https://web.archive.org/cdx/search/cdx?url=*.$domain/*&collapse=urlkey&output=text&fl=original&filter=original:.*\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|git|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|env|apk|msi|dmg|tmp|crt|pem|key|pub|asc)$" -o filtered_urls.txt
 ```
 
 ### GO
