@@ -79,6 +79,8 @@ nmap -v --privileged -n -PE \
 --max-retries 3 --min-rtt-timeout 100ms --max-rtt-timeout 1250ms --initial-rtt-timeout 100ms \
 --defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover $NETID
 
+mkdir LDAP && neo4j start && rusthound -d "$DOMAIN" -u "$USER"@"$DOMAIN" -p "$PASSWORD" --zip --ldaps --adcs --old-bloodhound && unzip *.zip && bloodhound-import -du neo4j -dp exegol4thewin *.json && bloodhound &> /dev/null &
+
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
 # HTTP
