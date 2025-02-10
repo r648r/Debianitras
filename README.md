@@ -5,7 +5,7 @@
 ```bash
 getip() {
     while read -r domain; do
-        ips=$(dig @DNS +short "$domain" A)
+        ips=$(dig "@$2" +short "$domain" A)
         if [[ -n "$ips" ]]; then
             echo "$domain $ips" | tr '\n' ' ' | sed 's/ $/\n/' | anew dns-ip.txt
         fi
