@@ -73,8 +73,8 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/inst
 "pane_group:add_down": cmd-o
 "editor_view:down": none```
 ```
-```
-
+```bash
+printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 ```
 
 
