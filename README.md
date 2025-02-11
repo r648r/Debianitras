@@ -60,6 +60,8 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/inst
 
 
 ### Warp
+
+.warp/keybindings.yaml
 ```yaml
 ---
 "terminal:copy_commands": alt-c
@@ -71,7 +73,7 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/inst
 "workspace:new_tab": cmd-t
 "workspace:activate_next_tab": alt-shift-N
 "pane_group:add_down": cmd-o
-"editor_view:down": none```
+"editor_view:down": none
 ```
 ```bash
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
