@@ -58,6 +58,26 @@ nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/install.sh|bash && source $HOME/.zshrc
 ```
 
+
+### Warp
+```yaml
+---
+"terminal:copy_commands": alt-c
+"pane_group:navigate_next": alt-n
+"terminal:copy": alt-a
+"workspace:show_settings_warpify_page": alt-i
+"pane_group:add_left": cmd-e
+"terminal:copy_outputs": alt-o
+"workspace:new_tab": cmd-t
+"workspace:activate_next_tab": alt-shift-N
+"pane_group:add_down": cmd-o
+"editor_view:down": none```
+```
+```
+
+```
+
+
 ### VsCode
 ```bash
 curl -fsSL https://code-server.dev/install.sh | sh
