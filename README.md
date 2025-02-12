@@ -87,7 +87,7 @@ curl -fsSL https://code-server.dev/install.sh | sh
 
 ## Cheat Sheet
 ```bash
-# Scan
+# Fast net recon
 nmap -v --privileged -n -PE \
 -PS21-23,25,53,80,88,110-111,113,115,135,139,143,220,264,389,443,445,449,524,585,636,993,995,1433,1521,1723,3306,3389,5900,8080,9100 \
 -PU53,67-69,111,123,135,137-139,161-162,445,500,514,520,631,1434,1701,1900,4500,5353,49152 \
@@ -96,7 +96,7 @@ nmap -v --privileged -n -PE \
 --max-retries 3 --min-rtt-timeout 100ms --max-rtt-timeout 1250ms --initial-rtt-timeout 100ms \
 --defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover $NETID
 
-# LDAP
+# LDAP dump and load to bh
 mkdir LDAP && neo4j start && rusthound -d "$DOMAIN" -u "$USER"@"$DOMAIN" -p "$PASSWORD" --zip --ldaps --adcs --old-bloodhound && unzip *.zip && bloodhound-import -du neo4j -dp exegol4thewin *.json && bloodhound &> /dev/null &
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
@@ -108,6 +108,12 @@ cat td-urls.txt | grep "200" | awk '{print $1}' | sort -u | katana -d 5 -kf -jsl
 arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -t 10 --rate-limit 10 --headers 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' --stable
 ffuf -w $(fzf-wordlists) -u $URL -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
 python3 corsy.py -i /path/urls.txt --headers "User-Agent: GoogleBot\nCookie: SESSION=ffffffffffffffff"
+while read -r line; do xsstrike.py -u $line done < xss.txt
+
+## Show only header without an HEAD req 
+curl -X POST "$URL" \
+     -d "aaaaa=bbbbb" \
+     -s -L -o /dev/null -D -
 ```
 
 ## systemctl
