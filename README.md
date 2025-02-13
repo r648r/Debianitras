@@ -24,10 +24,6 @@ wbm(){
   cat wb.txt | wc -l
   echo "Le fichier wb.txt contient $(cat wb.txt | wc -l) ligne soit $(du -h wb.txt)"
 }
-
-cat wb.txt | grep -Eo '\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|zip|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$'
-cat wb.txt | sort -u | uro | grep -Eo '\.(xls|xml|xlsx|json|
-pdf|sql|doc|docx|pptx|txt|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$' | sort | uniq -c | sort -rn
 ```
 
 ### GO
@@ -100,8 +96,9 @@ nmap -v --privileged -n -PE \
 mkdir LDAP && neo4j start && rusthound -d "$DOMAIN" -u "$USER"@"$DOMAIN" -p "$PASSWORD" --zip --ldaps --adcs --old-bloodhound && unzip *.zip && bloodhound-import -du neo4j -dp exegol4thewin *.json && bloodhound &> /dev/null &
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
+
 # HTTP
-curl "https://web.archive.org/cdx/search/cdx?url=*.$domain/*&collapse=urlkey&output=text&fl=original&filter=original:.*\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|git|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|env|apk|msi|dmg|tmp|crt|pem|key|pub|asc)$" -o filtered_urls.txt
+## Recon
 cat DNS/subdomains.txt | httpx -sc 200,301,302,304,403,401,405,500,502,503  -random-agent  -threads 100 | awk '{print $1}' | anew alive-sub.txt
 httpx -ip -sc -fr -td -title -ports http:80,https:443,http:8080,https:8080,http:8081,https:8081,http:9090,https:9091,http:9091,https:9091,https:4443,https:8443,https:9443 -random-agent -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -threads 100 | anew td-urls.txt
 cat td-urls.txt | grep "200" | awk '{print $1}' | sort -u | katana -d 5 -kf -jsl -jc -fx -ef woff,css,png,svg,jpg,woff2,jpeg,gif,svg -o crawl.txt -rl 60 | tee katana-crawl.txt
@@ -114,6 +111,31 @@ while read -r line; do xsstrike.py -u $line done < xss.txt
 curl -X POST "$URL" \
      -d "aaaaa=bbbbb" \
      -s -L -o /dev/null -D -
+
+
+## Wb
+curl "https://web.archive.org/cdx/search/cdx?url=*.$domain/*&collapse=urlkey&output=text&fl=original&filter=original:.*\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|git|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|env|apk|msi|dmg|tmp|crt|pem|key|pub|asc)$" -o filtered_urls.txt
+cat wb.txt | grep -Eo '\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|zip|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$'
+cat wb.txt | sort -u | uro | grep -Eo '\.(xls|xml|xlsx|json|
+pdf|sql|doc|docx|pptx|txt|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$' | sort | uniq -c | sort -rn
+```
+## CVE 2 template
+
+```bash
+cvemap -l 100  -q 'cvss_score:>7 vuln_status:confirmed is_remote:true is_template:false is_poc:true sort_asc:age_in_days' -j | tee CVE2template.json
+```
+```bash
+jq -r '
+  (["CVE ID", "Vendor", "CVSS", "PoC URL"]),
+  (.[] | 
+    select(.cvss_metrics.cvss31.vector? and (.cvss_metrics.cvss31.vector | contains("AV:N") and contains("PR:N") and contains("UI:N"))) |
+    . as $cve |
+    (.poc // [])[] |  
+    [$cve.cve_id, 
+     ($cve.cpe.vendor // "N/A"), 
+     ($cve.cvss_metrics.cvss31.score | tostring), 
+     .url]) |
+  @tsv' CVE2template.json | column -t -s $'\t'
 ```
 
 ## systemctl
@@ -125,7 +147,6 @@ sudo systemctl list-units --type=service --state=active
 sudo systemctl list-dependencies nginx
 sudo systemctl set-default multi-user.target
 sudo systemctl isolate multi-user.target
-
 ```
 
 
