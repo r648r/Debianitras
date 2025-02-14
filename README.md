@@ -105,13 +105,24 @@ cat td-urls.txt | grep "200" | awk '{print $1}' | sort -u | katana -d 5 -kf -jsl
 arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -t 10 --rate-limit 10 --headers 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' --stable
 ffuf -w $(fzf-wordlists) -u $URL -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
 python3 corsy.py -i /path/urls.txt --headers "User-Agent: GoogleBot\nCookie: SESSION=ffffffffffffffff"
-while read -r line; do xsstrike.py -u $line done < xss.txt
 
 ## Show only header without an HEAD req 
 curl -X POST "$URL" \
      -d "aaaaa=bbbbb" \
      -s -L -o /dev/null -D -
-
+##XSS
+cat /workspace/Externe/DNS/subdomains.txt | assetfinder --subs-only | httprobe | while read -r url; do
+    xss1=$(curl -s -L "$url" -H 'X-Forwarded-For: fuckaliceandbob.space' | grep xss)
+    xss2=$(curl -s -L "$url" -H 'X-Forwarded-Host: fuckaliceandbob.space' | grep xss)
+    xss3=$(curl -s -L "$url" -H 'Host: fuckaliceandbob.space' | grep xss)
+    xss4=$(curl -s -L "$url" --request-target "http://burpcollaborator/" --max-time 2)
+    
+    echo -e "\e[1;32m$url\e[0m\n\
+    Method[1] X-Forwarded-For: xss+ssrf => $xss1\n\
+    Method[2] X-Forwarded-Host: xss+ssrf ==> $xss2\n\
+    Method[3] Host: xss+ssrf ==> $xss3\n\
+    Method[4] GET http://fuckaliceandbob.space HTTP/1.1\n"
+done
 
 ## Wb
 curl "https://web.archive.org/cdx/search/cdx?url=*.$domain/*&collapse=urlkey&output=text&fl=original&filter=original:.*\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|git|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|env|apk|msi|dmg|tmp|crt|pem|key|pub|asc)$" -o filtered_urls.txt
