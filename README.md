@@ -150,7 +150,7 @@ jq -r '
 ```
 
 ## systemctl
-```
+```bash
 sudo systemctl --failed
 sudo systemctl list-units --type=service
 sudo systemctl list-units --type=service --state=active
@@ -159,6 +159,13 @@ sudo systemctl list-dependencies nginx
 sudo systemctl set-default multi-user.target
 sudo systemctl isolate multi-user.target
 ```
+
+## initframfs
+```bash
+fsck -y /dev/sdX
+echo b > /proc/sysrq-trigger
+```
+
 
 
 /etc/systemd/system/update-issue-ip.service
