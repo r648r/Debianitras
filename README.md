@@ -167,7 +167,7 @@ echo b > /proc/sysrq-trigger
 ```
 
 ## SSH
-```
+```bash
 rm /etc/ssh/ssh_host_*
 ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""
 ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
@@ -184,8 +184,9 @@ ip6tables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent --set
 ip6tables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 10 --hitcount 10 -j DROP
 service netfilter-persistent save
 ```
+
 /etc/ssh/sshd_config
-```
+```init
 # This sshd was compiled with PATH=/usr/local/bin:/usr/bin:/bin:/usr/games
 Port 6941
 PermitRootLogin yes
