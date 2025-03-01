@@ -107,10 +107,13 @@ arjun -i srv-endpoint.txt -oT arjun_output.txt -m GET,POST -w $(fzf-wordlists) -
 ffuf -w $(fzf-wordlists) -u $URL -fc 400,401,402,403,404,429,500,501,502,503 -recursion -recursion-depth 2 -e .html,.php,.txt,.pdf,.js,.css,.zip,.bak,.old,.log,.json,.xml,.config,.env,.asp,.aspx,.jsp,.gz,.tar,.sql,.db -ac -c -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0' -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -t 100 -r -o results.json
 python3 corsy.py -i /path/urls.txt --headers "User-Agent: GoogleBot\nCookie: SESSION=ffffffffffffffff"
 
-## Show only header without an HEAD req 
+## Other
 curl -X POST "$URL" \
      -d "aaaaa=bbbbb" \
      -s -L -o /dev/null -D -
+jq -r "path(..) | [.[] | tostring] | join(\".\")" deepseek_output.json
+
+
 ##XSS
 cat /workspace/Externe/DNS/subdomains.txt | assetfinder --subs-only | httprobe | while read -r url; do
     xss1=$(curl -s -L "$url" -H 'X-Forwarded-For: fuckaliceandbob.space' | grep xss)
