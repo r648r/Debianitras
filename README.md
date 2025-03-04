@@ -72,6 +72,7 @@ find . -type f -name ".DS_Store" -print0 | xargs -0 rm -rf
 "pane_group:add_down": cmd-o
 "editor_view:down": none
 ```
+
 ```bash
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 ```
@@ -155,7 +156,8 @@ jq -r '
   @tsv' CVE2template.json | column -t -s $'\t'
 ```
 
-## systemctl
+## Debian love
+
 ```bash
 sudo systemctl --failed
 sudo systemctl list-units --type=service
@@ -166,6 +168,28 @@ sudo systemctl set-default multi-user.target
 sudo systemctl isolate multi-user.target
 ```
 
+## goatsysctl
+
+```
+# goatsysctl
+net.ipv4.tcp_max_syn_backlog = 40000
+net.core.somaxconn = 40000
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.core.rmem_max = 134217728
+net.core.wmem_max = 134217728
+net.ipv4.tcp_mem = 134217728 134217728 134217728
+net.ipv4.tcp_rmem = 4096 277750 134217728
+net.ipv4.tcp_wmem = 4096 277750 134217728
+net.core.netdev_max_backlog = 300000
+net.ipv4.ip_local_port_range = 1025 65535
+```
 ## initframfs
 ```bash
 fsck -y /dev/sdX
