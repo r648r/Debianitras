@@ -156,7 +156,7 @@ jq -r '
   @tsv' CVE2template.json | column -t -s $'\t'
 ```
 
-## Debian love
+##  systemctl search
 
 ```bash
 sudo systemctl --failed
