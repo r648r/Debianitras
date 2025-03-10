@@ -35,6 +35,7 @@ echo "[*] Installation de code-server..."
 curl -fsSL https://code-server.dev/install.sh | sh
 
 npm install broken-link-checker -g
+pip install --upgrade pip
 
 ############################################
 #5) Ajout d'aliases dans ~/.zshrc
