@@ -53,6 +53,7 @@ nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone
 ```bash
 curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/install.sh|bash && source $HOME/.zshrc
 find . -type f -name ".DS_Store" -print0 | xargs -0 rm -rf
+brew list | gum choose --no-limit | xargs brew uninstall
 ```
 
 
