@@ -26,7 +26,7 @@ wbm(){
 }
 ```
 
-### GO
+### Go && py
 ```bash
 asdf plugin add golang
 asdf install golang latest
@@ -47,6 +47,23 @@ go install github.com/jaeles-project/jaeles@latest
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
 nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp
+
+pipx install uro
+pipx install urless
+pipx install bbot
+
+git clone https://github.com/m4ll0k/SecretFinder.git /tmp/secretfinder
+pip install -r /tmp/secretfinder/requirements.txt
+sudo mkdir -p /opt/secretfinder
+sudo cp /tmp/secretfinder/SecretFinder.py  /opt/secretfinder/secretfinder.py
+sudo echo 'alias secretfinder="python3 /opt/secretfinder/secretfinder.py"'>>~/.zshrc
+
+git clone https://github.com/GerbenJavado/LinkFinder.git
+cd LinkFinder
+sudo mkdir -p /opt/linkfinder
+sudo cp linkfinder.py /opt/linkfinder/linkfinder.py
+sudo echo 'alias linkfinder="python3 /opt/linkfinder/linkfinder.py"'>>~/.zshrc
+source $HOME/.zshrc
 ```
 
 ### ZSHRC + Wordlist 
