@@ -31,6 +31,20 @@ mkdir -p js_files; while IFS= read -r url || [ -n "$url" ]; do filename=$(basena
 
 ## wget
 sed -i 's/\r//' js.txt && for i in $(cat liveJS.txt); do wget "$i"; done
+
+wbm(){
+  if [ -f wb.txt ]; then
+    rm wb.txt
+  fi
+  while read -r d; do
+    curl -sG "https://web.archive.org/cdx/search/cdx" \
+      --data-urlencode "url=*.$d/*" \
+      --data-urlencode "collapse=urlkey" \
+      --data-urlencode "output=text" \
+      --data-urlencode "fl=original" \
+      --data-urlencode "filter=!original:.*[.](html|htm)$" \
+    | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif)$' | uro | tee -a wb.txt
+  done < $1
 ```
 
 ### Go && py
@@ -97,6 +111,7 @@ brew list | gum choose --no-limit | xargs brew uninstall
 "pane_group:add_down": cmd-o
 "editor_view:down": none
 ```
+
 
 ```bash
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
