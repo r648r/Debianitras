@@ -141,6 +141,10 @@ Get-GPPPassword "$DOMAIN"/"$USER":"$PASSWORD"@"$DC_HOST"
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
 
+# Git
+trufflehog git https://github.com/aFuckingGitRepo.git --results=verified,unknown
+
+
 # HTTP
 ## Recon
 cat DNS/subdomains.txt | httpx -sc 200,301,302,304,403,401,405,500,502,503  -random-agent  -threads 100 | awk '{print $1}' | anew alive-sub.txt
