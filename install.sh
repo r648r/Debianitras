@@ -58,6 +58,12 @@ alias rml='sudo find /var/log -type f -name "*.log" | xargs -I {} sudo truncate 
 alias gitssh='eval \$(ssh-agent -s) && ssh-add ~/.ssh/github'
 alias vs='code-server'
 alias ut='nuclei -update-templates && cd /root/nuclei-templates/coffinxp && pull --rebase && cd'
+alias secretfinder.py="python3 /opt/secretfinder/secretfinder.py"
+alias linkfinder.py="python3 /opt/linkfinder/linkfinder.py"
+alias secretfinder="python3 /opt/secretfinder/secretfinder.py"
+alias linkfinder="python3 /opt/linkfinder/linkfinder.py"
+alias sf="python3 /opt/secretfinder/secretfinder.py"
+alias lf="python3 /opt/linkfinder/linkfinder.py"
 
 # Tools
 clone_or_update() {
