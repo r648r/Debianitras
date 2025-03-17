@@ -235,6 +235,12 @@ net.ipv4.tcp_wmem = 4096 277750 134217728
 net.core.netdev_max_backlog = 300000
 net.ipv4.ip_local_port_range = 1025 65535
 ```
+## Shodan Dork
+```
+http.html:"/wp-content/"
+https://hunter.how/list?searchValue=product.name%3D%22Percona%20PMM%22
+```
+
 ## initframfs
 ```bash
 fsck -y /dev/sdX
