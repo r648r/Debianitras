@@ -3,7 +3,7 @@
 https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
 
 
-
+```bash
 wbm(){
   if [ -f wb.txt ]; then
     rm wb.txt
