@@ -63,6 +63,7 @@ pipx install uro
 pipx install urless
 pipx install bbot
 pipx install git+https://github.com/xnl-h4ck3r/waymore.git
+pipx install git+https://github.com/xnl-h4ck3r/xnLinkFinder.git
 
 git clone https://github.com/m4ll0k/SecretFinder.git /tmp/secretfinder
 pip install -r /tmp/secretfinder/requirements.txt
