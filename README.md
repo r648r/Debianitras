@@ -1,7 +1,14 @@
 ## Install and update
 
-https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
+```bash
+printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
+```
 
+
+### VsCode
+```bash
+curl -fsSL https://code-server.dev/install.sh | sh
+```
 
 ```bash
 wbm(){
@@ -19,7 +26,8 @@ wbm(){
   done < $1
 ```
 
-### Go && py
+### Go
+
 ```bash
 asdf plugin add golang
 asdf install golang latest
@@ -40,7 +48,10 @@ go install github.com/jaeles-project/jaeles@latest
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
 nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone https://github.com/coffinxp/nuclei-templates.git /root/nuclei-templates/coffinxp
+```
 
+### Py
+```bash
 pipx install uro
 pipx install urless
 pipx install bbot
@@ -57,7 +68,6 @@ sudo mkdir -p /opt/linkfinder
 sudo cp linkfinder.py /opt/linkfinder/linkfinder.py
 sudo echo 'alias linkfinder="python3 /opt/linkfinder/linkfinder.py"'>>~/.zshrc
 source $HOME/.zshrc
-```
 
 ### ZSHRC + Wordlist 
 ```bash
@@ -65,6 +75,8 @@ curl -s https://raw.githubusercontent.com/r648r/Debianitras/refs/heads/main/inst
 find . -type f -name ".DS_Store" -print0 | xargs -0 rm -rf
 brew list | gum choose --no-limit | xargs brew uninstall
 ```
+
+https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
 
 
 ### Warp
@@ -85,15 +97,7 @@ brew list | gum choose --no-limit | xargs brew uninstall
 ```
 
 
-```bash
-printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
-```
 
-
-### VsCode
-```bash
-curl -fsSL https://code-server.dev/install.sh | sh
-```
 
 ## Cheat Sheet
 ```bash
