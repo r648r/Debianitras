@@ -2,35 +2,7 @@
 
 https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
 
-```bash
-cat allurls.txt | grep -i -E "\.js" | egrep -v "\.json" | httpx -mc 200 | anew jsfiles.txt
 
-while read -r url; do
-  if curl -s -o /dev/null -w "%{http_code}" "$url" | grep -q 200 && \
-     curl -s -I "$url" | grep -iq 'Content-Type:.*\(text/javascript\|application/javascript\)'; then
-    echo "$url"
-  fi
-done < jsfiles.txt > livejsfiles.txt
-
-
-# https://github.com/m4ll0k/SecretFinder
-
-cat jsfiles.txt | while read url; do python3 secretfinder.py -i $url -o cli >> secrets.txt; done
-
-nuclei -l jsfiles.txt -t /home/enma/nuclei-templates/http/exposures/ -o jsecrets.txt
-
-cat jsfiles.txt | while read url; do linkfinder -i $url -o cli >> endpoints-js.txt; done
-
-cat jsfiles.txt | xargs -I{} python3 /opt/linkfinder/linkfinder.py -i {} -o cli | anew endpoints-js.txt
-
-
-# Download JS Files
-
-## curl
-mkdir -p js_files; while IFS= read -r url || [ -n "$url" ]; do filename=$(basename "$url"); echo "Downloading $filename JS..."; curl -sSL "$url" -o "downloaded_js_files/$filename"; done < "$1"; echo "Download complete."
-
-## wget
-sed -i 's/\r//' js.txt && for i in $(cat liveJS.txt); do wget "$i"; done
 
 wbm(){
   if [ -f wb.txt ]; then
@@ -328,4 +300,37 @@ After=multi-user.target
 [Service]
 Type=oneshot
 ExecStart= /usr/bin/bash /usr/local/bin/update_issue_ip.sh
+```
+
+## Brouillon
+
+```bash
+cat allurls.txt | grep -i -E "\.js" | egrep -v "\.json" | httpx -mc 200 | anew jsfiles.txt
+
+while read -r url; do
+  if curl -s -o /dev/null -w "%{http_code}" "$url" | grep -q 200 && \
+     curl -s -I "$url" | grep -iq 'Content-Type:.*\(text/javascript\|application/javascript\)'; then
+    echo "$url"
+  fi
+done < jsfiles.txt > livejsfiles.txt
+
+
+# https://github.com/m4ll0k/SecretFinder
+
+cat jsfiles.txt | while read url; do python3 secretfinder.py -i $url -o cli >> secrets.txt; done
+
+nuclei -l jsfiles.txt -t /home/enma/nuclei-templates/http/exposures/ -o jsecrets.txt
+
+cat jsfiles.txt | while read url; do linkfinder -i $url -o cli >> endpoints-js.txt; done
+
+cat jsfiles.txt | xargs -I{} python3 /opt/linkfinder/linkfinder.py -i {} -o cli | anew endpoints-js.txt
+
+
+# Download JS Files
+
+## curl
+mkdir -p js_files; while IFS= read -r url || [ -n "$url" ]; do filename=$(basename "$url"); echo "Downloading $filename JS..."; curl -sSL "$url" -o "downloaded_js_files/$filename"; done < "$1"; echo "Download complete."
+
+## wget
+sed -i 's/\r//' js.txt && for i in $(cat liveJS.txt); do wget "$i"; done
 ```
