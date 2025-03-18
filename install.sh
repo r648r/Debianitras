@@ -99,7 +99,6 @@ wbm(){
 
 up(){
   clone_or_update "https://github.com/coffinxp/payloads.git" "$TARGET_WORDLISTS/payloads"
-  clone_or_update "https://github.com/coffinxp/oneListForall.git" "$TARGET_WORDLISTS/oneListForall"
   clone_or_update "https://github.com/coffinxp/img-payloads.git" "$TARGET_WORDLISTS/img-payloads"
   clone_or_update "https://github.com/coffinxp/nuclei-templates.git" "$TARGET_NUCLEI"
 }
