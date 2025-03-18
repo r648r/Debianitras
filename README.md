@@ -1,14 +1,16 @@
-## Install and update
+## Warp
 
 ```bash
 printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 ```
 
 
-### VsCode
+## VsCode
 ```bash
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
+
+## Bash ToolKit
 
 ```bash
 wbm(){
@@ -55,6 +57,7 @@ nuclei -update-templates && mkdir -p root/nuclei-templates/coffinxp && git clone
 pipx install uro
 pipx install urless
 pipx install bbot
+pipx install git+https://github.com/xnl-h4ck3r/waymore.git
 
 git clone https://github.com/m4ll0k/SecretFinder.git /tmp/secretfinder
 pip install -r /tmp/secretfinder/requirements.txt
