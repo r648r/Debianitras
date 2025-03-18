@@ -46,7 +46,10 @@ go install -v github.com/tomnomnom/qsreplace@latest
 go install -v github.com/hahwul/dalfox/v2@latest
 go install -v github.com/003random/getJS/v2@latest
 go install -v github.com/jaeles-project/gospider@latest
-go install github.com/jaeles-project/jaeles@latest
+go install -v github.com/jaeles-project/jaeles@latest
+go install -v github.com/tomnomnom/unfurl@latest
+
+
 
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
