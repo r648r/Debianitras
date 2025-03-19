@@ -14,6 +14,7 @@
   - URL hosted on ms
   - No need C2 to manage session -> browser
   - VsCode
+    - `code tunnel service install` to run your tunnel as a service, and `code tunnel --no-sleep`
     - Possibly installed on computer with permission in enterprise (dev, sysadmin)
     - Mac os Binary Checker OK
     - `w` or `who` empty
