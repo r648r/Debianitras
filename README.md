@@ -171,6 +171,7 @@ cat wb.txt | grep -Eo '\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|zip|tgz|ba
 cat wb.txt | sort -u | uro | grep -Eo '\.(xls|xml|xlsx|json|
 pdf|sql|doc|docx|pptx|txt|zip|tar\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|apk|msi|dmg|tmp|crt|pem|key|pub|asc|env|passwd|htpasswd|htaccess|keytab|csr|pfx|ppk)$' | sort | uniq -c | sort -rn
 ```
+
 ## CVE 2 template
 
 ```bash
@@ -224,6 +225,7 @@ net.ipv4.tcp_wmem = 4096 277750 134217728
 net.core.netdev_max_backlog = 300000
 net.ipv4.ip_local_port_range = 1025 65535
 ```
+
 ## Shodan Dork
 ```
 http.html:"/wp-content/"
@@ -259,7 +261,9 @@ AcceptEnv LANG LC_*
 # override default of no subsystems
 Subsystem       sftp    /usr/lib/openssh/sftp-server
 ```
+
 ### hardening
+
 ```bash
 rm /etc/ssh/ssh_host_*
 ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""
@@ -318,6 +322,20 @@ After=multi-user.target
 Type=oneshot
 ExecStart= /usr/bin/bash /usr/local/bin/update_issue_ip.sh
 ```
+
+.zshrc
+```
+export ZSH="$HOME/.oh-my-zsh"
+export EDITOR='nano'
+export PATH="$PATH:/root/.local/bin"
+
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="evan"
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+```
+
 
 ## Brouillon
 
