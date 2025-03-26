@@ -135,6 +135,8 @@ trufflehog git https://github.com/aFuckingGitRepo.git --results=verified,unknown
 
 
 # HTTP
+## Filter out of scope ans (regex->IA verify with bloc ip and grep color)
+cat ip-range.txt HTTPX.txt | grep -E '(193\.255\.(2[4-9]|3[0-1])|160\.255\.247)\.'
 ## Recon
 cat DNS/subdomains.txt | httpx -sc 200,301,302,304,403,401,405,500,502,503  -random-agent  -threads 100 | awk '{print $1}' | anew alive-sub.txt
 httpx -ip -sc -fr -td -title -ports http:80,https:443,http:8080,https:8080,http:8081,https:8081,http:9090,https:9091,http:9091,https:9091,https:4443,https:8443,https:9443 -random-agent -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -threads 100 | anew td-urls.txt
