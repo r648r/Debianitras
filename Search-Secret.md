@@ -45,20 +45,25 @@ cat subs.txt | hakrawler -d 5 -t 20 -subs | tee hakrawler.txt
 
 ## Phase 3: Trie des URLs
 
-- Todo 
 
 ```bash
+# Setup scope
+cat HTTP/alive-inscope.txt | sed 's/:[0-9]\+$//' | awk -F. '{if (NF >= 2) {print $(NF-1) "." $NF} else {print $0}}' | sort -u | jq -R -s 'split("\n") | map(select(length > 0)) | {flags: "-iE", patterns: .}' | tee $HOME/.gf/scope-dns.json
 
 # 10. Filtrage des fichiers JavaScript
 cat Externe/HTTP/Crawl/* | grep "\.js" | sort -u | tee alljs.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[javascript\]" | sort -u | awk -F " - " '{print $2}' | anew alljs.txt
+cat Externe/HTTP/Crawl/gospider.txt | grep "\[href\]" | sort -u | awk -F ' - ' '{print $2}' | anew href.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[href\] \- javascript"| sort -u | awk -F ' - ' '{print $2}' | anew all-inlinejs.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[form\]"| sort -u | awk -F ' - ' '{print $2}' | uro | anew form.txt
+cat Externe/HTTP/Crawl/gospider.txt | grep "\[upload-form\]"| sort -u | awk -F ' - ' '{print $2}' | uro | anew upload-form.txt
+cat Externe/HTTP/Crawl/gospider.txt | grep "\[url\]"| sort -u | awk -F ' - ' '{print $2}' | anew url.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[aws-s3\]"| sort -u | awk -F ' - ' '{print $2}' | anew aws-s3.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[linkfinder\]"| sort -u | awk -F ' - ' '{print $2}' | anew linkfinder.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[robots\]"| sort -u | awk -F ' - ' '{print $2}' | anew robots.txt
 cat Externe/HTTP/Crawl/gospider.txt | grep "\[subdomains\]"| sort -u | awk -F ' - ' '{print $2}' | anew Externe/DNS/subdomains.txt
-
+# Supprimer tous les fichiers vides créés
+find . -type f -size 0 -name "*.txt" -delete
 
 # X. Valider le type de contenu JavaScript pour confirmer les fichiers JS légitimes
 while read -r url; do 
