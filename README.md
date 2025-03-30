@@ -21,14 +21,9 @@ wbm(){
     rm wb.txt
   fi
   while read -r d; do
-    curl -sG "https://web.archive.org/cdx/search/cdx" \
-      --data-urlencode "url=*.$d/*" \
-      --data-urlencode "collapse=urlkey" \
-      --data-urlencode "output=text" \
-      --data-urlencode "fl=original" \
-      --data-urlencode "filter=!original:.*[.](html|htm)$" \
-    | grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif)$' | uro | tee -a wb.txt
+    curl -sG "https://web.archive.org/cdx/search/cdx?url=*.$d&fl=original&collapse=urlkey&output=text"| grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | uro | tee -a wb.txt
   done < $1
+}
 ```
 
 ### Go
