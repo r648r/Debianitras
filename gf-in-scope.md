@@ -5,6 +5,9 @@
 ```
 cat HTTP/inscope-url-or-sub.txt | sed 's#https\?://##g'| sed 's/:[0-9]\+$//' | awk -F. '{if (NF >= 2) {print $(NF-1) "." $NF} else {print $0}}' | sort -u | jq -R -s 'split("\n") | map(select(length > 0)) | {flags: "-iE", patterns: .}' | tee $HOME/.gf/scope-dns.json
 ```
+```
+cat subdomains.txt| httpx -ip | grep -E '(113\.246\.(2[4-9]|3[0-1])|163\.53\.247)\.' | sed 's#https\?://##g'| sed 's/:[0-9]\+$//'| anew ../HTTP/alive-inscope.txt
+```
 
 ## Domaine
 
