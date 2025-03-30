@@ -1,5 +1,7 @@
 # Méthodologie Simplifiée de Chasse aux Expositions d'API
 
+Filter 200 -> grep -E '\[.*2[0-9]{2}.*\]
+
 ## Vue d'ensemble du processus
 0. **Choisir une cible** [Privée, WordPress, etc.]
 1. **Reconnaissance** - Identifier tous les sous-domaines cibles
