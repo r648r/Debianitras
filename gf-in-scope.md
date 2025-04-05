@@ -7,6 +7,8 @@ cat HTTP/inscope-url-or-sub.txt | sed 's#https\?://##g'| sed 's/:[0-9]\+$//' | a
 ```
 ```
 cat subdomains.txt| httpx -ip | grep -E '(113\.246\.(2[4-9]|3[0-1])|163\.53\.247)\.' | sed 's#https\?://##g'| sed 's/:[0-9]\+$//'| anew ../HTTP/alive-inscope.txt
+
+cat subdomains.txt | httpx -ip -ports http:80,https:443,http:8080,https:8080,http:8081,https:8081,http:9090,https:9091,http:9091,https:9091,https:4443,https:8443,https:9443| grep -E '(191\.216\.(3[4-9]|3[0-1])|162\.53\.247)\.' | awk '{print $1}' | sed 's#https\?://##g'| sed 's/:[0-9]\+$//' | anew HTTP/alive-inscope.txt
 ```
 
 ## Domaine
