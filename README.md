@@ -104,10 +104,8 @@ https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
 "editor_view:down": none
 ```
 
-
-
-
 ## Cheat Sheet
+
 ```bash
 # Fast net recon
 nmap -v --privileged -n -PE \
@@ -116,7 +114,9 @@ nmap -v --privileged -n -PE \
 -sS -sU \
 -p T:21-23,25,80,110,113,115,139,143,220,264,443,445,449,524,585,993,995,1433,1521,1723,8080,9100,U:123,2049,69,161,500,1900,5353 \
 --max-retries 3 --min-rtt-timeout 100ms --max-rtt-timeout 1250ms --initial-rtt-timeout 100ms \
---defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover $NETID
+--defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8
+
+nmap -v --privileged -n -PE -PS21-23,25,53,80,88,110-111,113,115,135,139,143,220,264,389,443,445,449,524,585,636,993,995,1433,1521,1723,3306,3389,5900,8080,9100 -PU53,67-69,111,123,135,137-139,161-162,445,500,514,520,631,1434,1701,1900,4500,5353,49152 -sS -sU -p T:21-23,25,80,110,113,115,139,143,220,264,443,445,449,524,585,993,995,1433,1521,1723,8080,9100,U:123,2049,69,161,500,1900,5353 --max-retries 3 --min-rtt-timeout 100ms --max-rtt-timeout 1250ms --initial-rtt-timeout 100ms --defeat-rst-ratelimit --open -O --osscan-guess --max-os-tries 1 -oA discover-canton -iL
 
 # LDAP dump and load to bh
 mkdir LDAP && neo4j start && rusthound -d "$DOMAIN" -u "$USER"@"$DOMAIN" -p "$PASSWORD" --zip --ldaps --adcs --old-bloodhound && unzip *.zip && bloodhound-import -du neo4j -dp exegol4thewin *.json && bloodhound &> /dev/null &
@@ -124,10 +124,8 @@ python3 Get-GPPPassword.py "$USER@$DC_IP" -dc-ip "$DC_IP" -hashes $NT_HASH
 Get-GPPPassword "$DOMAIN"/"$USER":"$PASSWORD"@"$DC_HOST"
 ldapsearch -x -H "ldap://$DC_IP" -D "AAAAAAA" -w "$PASSWORD" -b "DC=QG,DC=ENTERPRISE,DC=COM" "(objectClass=computer)" name dNSHostName | grep 'dNSHostName' | awk '{print $2}' | tee machines.txt
 
-
 # Git
 trufflehog git https://github.com/aFuckingGitRepo.git --results=verified,unknown
-
 
 # HTTP
 ## Filter out of scope ans (regex->IA verify with bloc ip and grep color)
