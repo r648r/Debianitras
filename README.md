@@ -1,30 +1,4 @@
-![image](https://github.com/user-attachments/assets/e52b4921-4260-49ba-81b4-6e33222875f9)
 
-## Warp
-
-```bash
-printf '\eP\$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
-```
-
-
-## VsCode
-
-```bash
-curl -fsSL https://code-server.dev/install.sh | sh
-```
-
-## Bash ToolKit
-
-```bash
-wbm(){
-  if [ -f wb.txt ]; then
-    rm wb.txt
-  fi
-  while read -r d; do
-    curl -sG "https://web.archive.org/cdx/search/cdx?url=*.$d&fl=original&collapse=urlkey&output=text"| grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | uro | tee -a wb.txt
-  done < $1
-}
-```
 
 ### Go
 
@@ -46,8 +20,6 @@ go install -v github.com/jaeles-project/gospider@latest
 go install -v github.com/jaeles-project/jaeles@latest
 go install -v github.com/tomnomnom/unfurl@latest
 go install -v github.com/s0md3v/wl/cmd/wl@latest
-
-
 
 pdtm -bp /root/.asdf/shims/ -ua
 pdtm -bp /root/.asdf/shims/ -ia
@@ -77,6 +49,27 @@ sudo echo 'alias linkfinder="python3 /opt/linkfinder/linkfinder.py"'>>~/.zshrc
 source $HOME/.zshrc
 ```
 
+
+
+## VsCode
+
+```bash
+curl -fsSL https://code-server.dev/install.sh | sh
+```
+
+## Bash ToolKit
+
+```bash
+wbm(){
+  if [ -f wb.txt ]; then
+    rm wb.txt
+  fi
+  while read -r d; do
+    curl -sG "https://web.archive.org/cdx/search/cdx?url=*.$d&fl=original&collapse=urlkey&output=text"| grep -Eiv '\.(woff|css|png|svg|jpg|woff2|jpeg|gif|htm|html)$' | uro | tee -a wb.txt
+  done < $1
+}
+```
+
 ### ZSHRC + Wordlist 
 
 ```bash
@@ -87,23 +80,6 @@ brew list | gum choose --no-limit | xargs brew uninstall
 
 https://github.com/sudosuraj/Bounty-VPS/blob/main/bounty-vps.sh
 
-
-### Warp
-
-.warp/keybindings.yaml
-```yaml
----
-"terminal:copy_commands": alt-c
-"pane_group:navigate_next": alt-n
-"terminal:copy": alt-a
-"workspace:show_settings_warpify_page": alt-i
-"pane_group:add_left": cmd-e
-"terminal:copy_outputs": alt-o
-"workspace:new_tab": cmd-t
-"workspace:activate_next_tab": alt-shift-N
-"pane_group:add_down": cmd-o
-"editor_view:down": none
-```
 
 ## Cheat Sheet
 
@@ -131,6 +107,7 @@ trufflehog git https://github.com/aFuckingGitRepo.git --results=verified,unknown
 # HTTP
 ## Filter out of scope ans (regex->IA verify with bloc ip and grep color)
 cat ip-range.txt HTTPX.txt | grep -E '(193\.255\.(2[4-9]|3[0-1])|160\.255\.247)\.'
+
 ## Recon
 cat DNS/subdomains.txt | httpx -sc 200,301,302,304,403,401,405,500,502,503  -random-agent  -threads 100 | awk '{print $1}' | anew alive-sub.txt
 httpx -ip -sc -fr -td -title -ports http:80,https:443,http:8080,https:8080,http:8081,https:8081,http:9090,https:9091,http:9091,https:9091,https:4443,https:8443,https:9443 -random-agent -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Originating-IP: 127.0.0.1' -H 'X-Forwarded-Host: localhost' -threads 100 | anew td-urls.txt
@@ -203,7 +180,7 @@ sudo systemctl set-default multi-user.target
 sudo systemctl isolate multi-user.target
 ```
 
-## goatsysctl
+## goatsysctl for fast file serving
 
 ```
 # goatsysctl
@@ -369,3 +346,23 @@ mkdir -p js_files; while IFS= read -r url || [ -n "$url" ]; do filename=$(basena
 ## wget
 sed -i 's/\r//' js.txt && for i in $(cat liveJS.txt); do wget "$i"; done
 ```
+
+
+### Warp
+
+.warp/keybindings.yaml
+```yaml
+---
+"terminal:copy_commands": alt-c
+"pane_group:navigate_next": alt-n
+"terminal:copy": alt-a
+"workspace:show_settings_warpify_page": alt-i
+"pane_group:add_left": cmd-e
+"terminal:copy_outputs": alt-o
+"workspace:new_tab": cmd-t
+"workspace:activate_next_tab": alt-shift-N
+"pane_group:add_down": cmd-o
+"editor_view:down": none
+```
+
+![image](https://github.com/user-attachments/assets/e52b4921-4260-49ba-81b4-6e33222875f9)
