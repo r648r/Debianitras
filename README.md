@@ -1,4 +1,9 @@
+# Random
 
+```bash
+curl https://ip.thc.org/sb/ldlc.com
+curl https://ip.thc.org/1.1.1.1
+```
 
 ### Go
 
