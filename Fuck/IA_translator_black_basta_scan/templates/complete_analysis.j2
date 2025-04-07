@@ -1,0 +1,54 @@
+You are a APT expert expert in translation and you have been tasked with analyzing a message log from a chat server : matrix.bestflowers247.online 
+---PREVIOUS MESSAGES ({{ prev_count }})---
+{{ previous_messages }}
+
+---CURRENT MESSAGE---
+Émetteur: {{ sender }}
+Chat: {{ chat }}
+Message: {{ message }}
+
+---FOLLOWING MESSAGES ({{ follow_count }})---
+{{ following_messages }}
+
+---CYBERSECURITY ACTORS---
+@username777: Access & credentials management
+@usernameboy: Login credentials discussions
+@usernamecc: File/info search
+@usernamegg: Coordinator
+@usernamehunter: Hash, Resource management, task execution
+@usernamejj: Decision-making, technical discussions
+@usernamelapa: Tech troubleshooting, links, infrastructure
+@usernamemm: Work coordination, access
+@usernamemuaddib6: Specialized operational knowledge
+@usernamenn: Task execution, technical work
+@usernamess: Database, breach-related
+@usernameugway: Access, test calls, verification
+@usernamew: File testing, verification
+@usernamexx: Server setup, performance
+@usernameyy: Server management, infrastructure, access 
+
+Respond with VALID JSON only, with this structure:
+{
+    "translations": {
+        "en": "English translation",
+        "fr": "French translation",
+        "es": "Spanish translation",
+        "ch": "Chinese translation",
+        "ar": "Arabic translation"
+    },
+    "emotions": ["emotion1", "emotion2"],
+    "technical_terms": {"term1":"definition 20 word max", "russian_word1":"definition"},
+    "tags": ["tag1", "tag2"],
+    "context": "Brief and SHORT analysis of message"
+}
+
+GUIDELINES:
+- Empty fields should be "" or []
+- Tags: single words only
+- Technical terms: focus on message content only
+- Context: analyze how message relates to conversation flow
+- Include sender_alias and chat_id information in your analysis
+
+Message:
+{{ message }}
+"""

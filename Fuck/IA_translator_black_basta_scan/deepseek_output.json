@@ -1,0 +1,476 @@
+[
+  {
+    "id": "1",
+    "sender_alias": "@nn",
+    "chat_id": "!VdvDXHFZwWDpIAtpCj",
+    "message": "BAZA",
+    "deepseek": {
+      "translations": {
+        "en": "BASE",
+        "fr": "BASE",
+        "es": "BASE",
+        "ch": "基地",
+        "ar": "قاعدة"
+      },
+      "emotions": [
+        "neutral",
+        "informative"
+      ],
+      "technical_terms": {
+        "BAZA": "A term often used in cybercriminal contexts to refer to a database or repository of stolen credentials or sensitive information."
+      },
+      "tags": [
+        "database",
+        "credentials",
+        "cybersecurity"
+      ],
+      "context": "The message 'BAZA' likely refers to a database or repository of stolen credentials, as indicated by the subsequent messages containing login credentials. The sender 'unknown' and chat 'unknown' suggest this is part of a covert or unauthorized operation. The following messages reveal detailed server specifications and login credentials, aligning with the roles of the cybersecurity actors listed, particularly @usernameboy and @usernamehunter, who are associated with login credentials and resource management.",
+      "token_count": 861,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "101",
+    "sender_alias": "@yy",
+    "chat_id": "!BOpqkyiMnBRfCPXwod",
+    "message": "> <@usernamegg:matrix.bestflowers247.online> sent a file.\n\nмой",
+    "deepseek": {
+      "translations": {
+        "en": "my",
+        "fr": "mon",
+        "es": "mi",
+        "ch": "我的",
+        "ar": "لي"
+      },
+      "emotions": [
+        "neutral",
+        "informative"
+      ],
+      "technical_terms": {
+        "file": "A digital document or resource sent via a chat server.",
+        "мой": "Russian possessive pronoun meaning 'my'."
+      },
+      "tags": [
+        "file",
+        "possession",
+        "communication"
+      ],
+      "context": "The message indicates that @usernamegg, the coordinator, sent a file in the chat !BOpqkyiMnBRfCPXwod. The word 'мой' (my) suggests ownership or association with the file. This aligns with @usernamegg's role in coordinating tasks and sharing resources. The following messages confirm the file was received and acknowledged by other users, indicating a smooth flow of information within the group.",
+      "token_count": 877,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "126",
+    "sender_alias": "@yy",
+    "chat_id": "!kJVcUcyUsQhwBCuIPD",
+    "message": "```\nhttp basic:\nWweZGERukHBtrbgpuyrabuJ\n8jH9£>2h+Rr@Ej}\n```",
+    "deepseek": {
+      "translations": {
+        "en": "http basic: WweZGERukHBtrbgpuyrabuJ 8jH9£>2h+Rr@Ej}",
+        "fr": "http basic: WweZGERukHBtrbgpuyrabuJ 8jH9£>2h+Rr@Ej}",
+        "es": "http basic: WweZGERukHBtrbgpuyrabuJ 8jH9£>2h+Rr@Ej}",
+        "ch": "http basic: WweZGERukHBtrbgpuyrabuJ 8jH9£>2h+Rr@Ej}",
+        "ar": "http basic: WweZGERukHBtrbgpuyrabuJ 8jH9£>2h+Rr@Ej}"
+      },
+      "emotions": [],
+      "technical_terms": {
+        "http basic": "HTTP Basic Authentication credentials, typically username and password.",
+        "WweZGERukHBtrbgpuyrabuJ": "Likely a username or token for authentication.",
+        "8jH9£>2h+Rr@Ej}": "Likely a password or cryptographic key for authentication."
+      },
+      "tags": [
+        "authentication",
+        "credentials",
+        "http"
+      ],
+      "context": "The message appears to contain HTTP Basic Authentication credentials, possibly for accessing a restricted resource. The sender, @gg, is sharing these credentials in the chat (!kJVcUcyUsQhwBCuIPD), likely for coordination or access purposes. This aligns with the ongoing discussion about admin panel access and domains.",
+      "token_count": 1160,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "176",
+    "sender_alias": "@ugway",
+    "chat_id": "!EuyVMiAheeTlZepXfO",
+    "message": "https://www.zoominfo.com/c/fevertree-drinks/103761433",
+    "deepseek": {
+      "translations": {
+        "en": "https://www.zoominfo.com/c/fevertree-drinks/103761433",
+        "fr": "https://www.zoominfo.com/c/fevertree-drinks/103761433",
+        "es": "https://www.zoominfo.com/c/fevertree-drinks/103761433",
+        "ch": "https://www.zoominfo.com/c/fevertree-drinks/103761433",
+        "ar": "https://www.zoominfo.com/c/fevertree-drinks/103761433"
+      },
+      "emotions": [],
+      "technical_terms": {},
+      "tags": [
+        "link",
+        "zoominfo",
+        "fevertree"
+      ],
+      "context": "The message is a link to a ZoomInfo page for Fevertree Drinks. It appears to be part of a broader conversation involving credentials, domains, and technical discussions. The sender, @ugway, is associated with access and verification tasks, suggesting this link might be used for reconnaissance or data gathering purposes. The chat ID !gmvSffSIypqQChlEbx indicates a specific operational context.",
+      "token_count": 926,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "201",
+    "sender_alias": "@gg",
+    "chat_id": "!gmvSffSIypqQChlEbx",
+    "message": "сейчас",
+    "deepseek": {
+      "translations": {
+        "en": "now",
+        "fr": "maintenant",
+        "es": "ahora",
+        "ch": "现在",
+        "ar": "الآن"
+      },
+      "emotions": [
+        "urgency",
+        "neutral"
+      ],
+      "technical_terms": {
+        "сейчас": "Russian word meaning 'now', indicating immediacy or current moment"
+      },
+      "tags": [
+        "urgency",
+        "time"
+      ],
+      "context": "The message 'сейчас' (now) from @ugway in chat !cilgJhvyEdXVrJDxAs suggests a sense of urgency or readiness. It likely relates to coordinating immediate actions, possibly in response to the previous links shared or in preparation for the following messages about access and task execution.",
+      "token_count": 814,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "202",
+    "sender_alias": "@gg",
+    "chat_id": "!gmvSffSIypqQChlEbx",
+    "message": "к лоадеру лучше сразу доступ",
+    "deepseek": {
+      "translations": {
+        "en": "It's better to have immediate access to the loader",
+        "fr": "Il est préférable d'avoir un accès immédiat au chargeur",
+        "es": "Es mejor tener acceso inmediato al cargador",
+        "ch": "最好立即获得加载器的访问权限",
+        "ar": "من الأفضل الحصول على وصول فوري إلى المحمل"
+      },
+      "emotions": [
+        "urgency",
+        "practicality"
+      ],
+      "technical_terms": {
+        "лоадеру": "loader, a tool or software used to load or inject code or payloads into a system"
+      },
+      "tags": [
+        "loader",
+        "access",
+        "immediate"
+      ],
+      "context": "The message from @gg in chat !gmvSffSIypqQChlEbx suggests a focus on operational efficiency, emphasizing the need for immediate access to a loader, likely for executing tasks or deploying resources. This aligns with the broader conversation flow, where coordination and task execution are key themes.",
+      "token_count": 882,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "226",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "> <@usernameugway:matrix.bestflowers247.online> когда ты спрашиваешь какой доступ ты имеешь ввиду ворк или домен и есть ли впн?\n\nвпн или внс или еще что то...",
+    "deepseek": {
+      "translations": {
+        "en": "When you ask what access you mean, are you referring to work or domain, and is there a VPN? VPN or VNC or something else...",
+        "fr": "Quand vous demandez quel accès vous entendez, parlez-vous du travail ou du domaine, et y a-t-il un VPN ? VPN ou VNC ou autre chose...",
+        "es": "Cuando preguntas a qué acceso te refieres, ¿te refieres al trabajo o al dominio, y hay un VPN? VPN o VNC o algo más...",
+        "ch": "当你问你有哪种访问权限时，你是指工作还是域名，是否有VPN？VPN或VNC或其他...",
+        "ar": "عندما تسأل عن نوع الوصول الذي تقصده، هل تقصد العمل أو النطاق، وهل هناك VPN؟ VPN أو VNC أو شيء آخر..."
+      },
+      "emotions": [
+        "inquisitive",
+        "uncertain"
+      ],
+      "technical_terms": {
+        "VPN": "Virtual Private Network, a secure connection over the internet.",
+        "VNC": "Virtual Network Computing, a graphical desktop-sharing system.",
+        "ворк": "Work, likely referring to work-related access.",
+        "домен": "Domain, referring to a network domain or system."
+      },
+      "tags": [
+        "access",
+        "VPN",
+        "VNC",
+        "domain",
+        "work"
+      ],
+      "context": "The message is a clarification request regarding access types (work or domain) and the presence of a VPN or VNC. It reflects ongoing technical coordination in the chat, likely related to network access or security. Sender @usernameugway is seeking clarity from @nn, indicating a collaborative but uncertain tone.",
+      "token_count": 1250,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "251",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "тетсирую на ней",
+    "deepseek": {
+      "translations": {
+        "en": "testing on it",
+        "fr": "test sur elle",
+        "es": "probando en ello",
+        "ch": "在上面测试",
+        "ar": "اختبار عليه"
+      },
+      "emotions": [
+        "neutral",
+        "focused"
+      ],
+      "technical_terms": {
+        "тетсирую": "testing or experimenting with something",
+        "ней": "refers to a system, tool, or object being tested"
+      },
+      "tags": [
+        "testing",
+        "experimentation",
+        "technical"
+      ],
+      "context": "The message 'тетсирую на ней' from @gg in chat !RVxOPEuHMjKrYEQOpn indicates a focus on testing or experimenting with a specific system or tool. This aligns with the technical nature of the conversation, as seen in previous messages involving IP addresses, credentials, and file sharing. The sender is likely verifying functionality or performance, which is consistent with the roles of @usernamegg (coordinator) and @usernameugway (access, test calls, verification).",
+      "token_count": 934,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "26",
+    "sender_alias": "@gg",
+    "chat_id": "!hTfjQUfZomYWfRlQxb",
+    "message": "ку",
+    "deepseek": {
+      "translations": {
+        "en": "hi",
+        "fr": "salut",
+        "es": "hola",
+        "ch": "嗨",
+        "ar": "مرحبًا"
+      },
+      "emotions": [
+        "neutral",
+        "casual"
+      ],
+      "technical_terms": {
+        "ку": "Russian informal greeting, equivalent to 'hi' or 'hey'"
+      },
+      "tags": [
+        "greeting",
+        "informal"
+      ],
+      "context": "The message 'ку' is a casual greeting in Russian, sent repeatedly by @gg across multiple chat IDs (!OpQbMRJOyLHOFoVHYA, !PlQDFDdDGViBzdgFiM, etc.). This suggests a pattern of informal communication, possibly testing or verifying chat functionality. The sender, @gg, is identified as a coordinator, which aligns with their role in managing or initiating communication.",
+      "token_count": 784,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "301",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "ты какую нагрузку компилил ?",
+    "deepseek": {
+      "translations": {
+        "en": "What payload did you compile?",
+        "fr": "Quelle charge utile as-tu compilée ?",
+        "es": "¿Qué carga útil compilaste?",
+        "ch": "你编译了什么负载？",
+        "ar": "ما هي الحمولة التي قمت بتجميعها؟"
+      },
+      "emotions": [
+        "curiosity",
+        "technical"
+      ],
+      "technical_terms": {
+        "нагрузка": "payload; malicious code or software component",
+        "компилил": "compile; convert code into executable form"
+      },
+      "tags": [
+        "payload",
+        "compile",
+        "malware"
+      ],
+      "context": "The message from @gg in chat !RVxOPEuHMjKrYEQOpn inquires about the type of payload compiled, indicating a technical discussion likely related to malware development or testing. This aligns with the following messages discussing build processes and encryption, suggesting a focus on malicious software creation.",
+      "token_count": 893,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "326",
+    "sender_alias": "@yy",
+    "chat_id": "!kJVcUcyUsQhwBCuIPD",
+    "message": "хорошо, перепишу если что",
+    "deepseek": {
+      "translations": {
+        "en": "Okay, I'll rewrite if necessary",
+        "fr": "D'accord, je réécrirai si besoin",
+        "es": "Vale, reescribiré si es necesario",
+        "ch": "好的，如果需要我会重写",
+        "ar": "حسنًا، سأعيد الكتابة إذا لزم الأمر"
+      },
+      "emotions": [
+        "neutral",
+        "cooperative"
+      ],
+      "technical_terms": {},
+      "tags": [
+        "communication",
+        "agreement"
+      ],
+      "context": "The sender @gg, in chat !kJVcUcyUsQhwBCuIPD, acknowledges a previous discussion about adapting software for Ubuntu or Debian. The message indicates willingness to make adjustments if needed, showing cooperation in technical discussions. This aligns with the ongoing conversation about system compatibility and deployment scripts.",
+      "token_count": 1163,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "351",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "надо ждать когда придут",
+    "deepseek": {
+      "translations": {
+        "en": "We need to wait until they arrive",
+        "fr": "Il faut attendre qu'ils arrivent",
+        "es": "Hay que esperar a que lleguen",
+        "ch": "需要等待他们到达",
+        "ar": "يجب الانتظار حتى يصلوا"
+      },
+      "emotions": [
+        "patience",
+        "anticipation"
+      ],
+      "technical_terms": {
+        "надо": "need to/must (Russian)",
+        "ждать": "to wait (Russian)",
+        "придут": "they will come/arrive (Russian)"
+      },
+      "tags": [
+        "waiting",
+        "arrival",
+        "coordination"
+      ],
+      "context": "The message 'надо ждать когда придут' suggests a pause in activity, likely waiting for resources, personnel, or information to arrive. This aligns with @gg's role as a coordinator, indicating a strategic pause in operations. The chat ID !RVxOPEuHMjKrYEQOpn is consistent with previous messages, showing continuity in the conversation flow.",
+      "token_count": 860,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "376",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "ждать",
+    "deepseek": {
+      "translations": {
+        "en": "wait",
+        "fr": "attendre",
+        "es": "esperar",
+        "ch": "等待",
+        "ar": "انتظر"
+      },
+      "emotions": [
+        "neutral",
+        "patient"
+      ],
+      "technical_terms": {
+        "ждать": "to wait, often used in operational contexts to indicate a pause or delay"
+      },
+      "tags": [
+        "wait",
+        "delay",
+        "operation"
+      ],
+      "context": "The message 'ждать' (wait) from @ugway in chat !RVxOPEuHMjKrYEQOpn suggests a pause or delay in action, likely in response to the previous question about handling those not in the domain. This aligns with @ugway's role in access, test calls, and verification, indicating a strategic pause for further instructions or verification.",
+      "token_count": 791,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "377",
+    "sender_alias": "@gg",
+    "chat_id": "!RVxOPEuHMjKrYEQOpn",
+    "message": "чекать",
+    "deepseek": {
+      "translations": {
+        "en": "check",
+        "fr": "vérifier",
+        "es": "verificar",
+        "ch": "检查",
+        "ar": "تحقق"
+      },
+      "emotions": [
+        "neutral",
+        "instructional"
+      ],
+      "technical_terms": {
+        "чекать": "to check or verify something, often used in technical or operational contexts"
+      },
+      "tags": [
+        "verification",
+        "technical"
+      ],
+      "context": "The message 'чекать' (check) from @gg in chat !RVxOPEuHMjKrYEQOpn appears to be an instruction or response to the previous question about handling individuals not in the domain. It suggests a need for verification or monitoring, aligning with the ongoing operational discussion. The sender, @gg, is likely coordinating or providing guidance, as seen in their previous messages.",
+      "token_count": 840,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "51",
+    "sender_alias": "@gg",
+    "chat_id": "!kJVcUcyUsQhwBCuIPD",
+    "message": "ugway",
+    "deepseek": {
+      "translations": {
+        "en": "ugway",
+        "fr": "ugway",
+        "es": "ugway",
+        "ch": "ugway",
+        "ar": "ugway"
+      },
+      "emotions": [],
+      "technical_terms": {
+        "ugway": "A username or alias used for access, testing, or verification purposes."
+      },
+      "tags": [
+        "username",
+        "access",
+        "verification"
+      ],
+      "context": "The message 'ugway' appears to be a username or alias, likely related to access or verification tasks. It aligns with the role of @usernameugway, who is associated with access, test calls, and verification. The following messages reveal login credentials for 'usernameugway,' indicating this message may have been a prompt or reference for credential generation or access setup. Sender @gg is the coordinator, suggesting this is part of a structured workflow.",
+      "token_count": 869,
+      "api_calls": 1
+    }
+  },
+  {
+    "id": "52",
+    "sender_alias": "@gg",
+    "chat_id": "!kJVcUcyUsQhwBCuIPD",
+    "message": "и этому",
+    "deepseek": {
+      "translations": {
+        "en": "and this",
+        "fr": "et cela",
+        "es": "y esto",
+        "ch": "还有这个",
+        "ar": "وهذا"
+      },
+      "emotions": [
+        "neutral",
+        "informative"
+      ],
+      "technical_terms": {
+        "и этому": "and this (referring to a previous topic or action)"
+      },
+      "tags": [
+        "continuation",
+        "reference"
+      ],
+      "context": "The message 'и этому' (and this) from @gg in chat !kJVcUcyUsQhwBCuIPD appears to reference a previous topic or action, likely related to the creation or management of accounts ('надо акк сделать'). It serves as a continuation or acknowledgment in the ongoing conversation about account credentials shared by @yy.",
+      "token_count": 852,
+      "api_calls": 1
+    }
+  }
+]

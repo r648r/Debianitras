@@ -1,0 +1,16 @@
+{
+  "total_messages": 21768,
+  "processed_messages": 0,
+  "successful_messages": 0,
+  "failed_messages": 0,
+  "success_rate": 0,
+  "total_tokens": 0,
+  "api_calls": 0,
+  "elapsed_time": 6.597584962844849,
+  "avg_processing_time": 0,
+  "messages_per_second": 0.0,
+  "tokens_per_second": 0.0,
+  "eur_per_hour": 0,
+  "thread_metrics": {},
+  "timestamp": "2025-03-04 18:55:30"
+}
