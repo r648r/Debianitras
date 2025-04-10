@@ -352,6 +352,29 @@ mkdir -p js_files; while IFS= read -r url || [ -n "$url" ]; do filename=$(basena
 sed -i 's/\r//' js.txt && for i in $(cat liveJS.txt); do wget "$i"; done
 ```
 
+```
+💥 Bug Bounty Tip: Exposing Weak JWT Implementations 💥
+
+A flawed JWT can open the door to account takeovers, privilege escalation, and critical security risks! Let’s break down how to spot these vulnerabilities.
+
+🔑 Vulnerabilities to Test:
+
+🔹 None Algorithm Bypass: Change the JWT header to "alg": "none" and remove the signature. If it’s still accepted — jackpot! 🎉
+
+🔹 Brute-Force Weak Secrets: Crack weak signing keys with tools like jwtcracker, hashcat, or John the Ripper. A short or common key? You’re in.
+
+🔹 Kid Parameter Injection: Tamper with the kid (Key ID) parameter — use path traversal (../../etc/passwd), local file inclusion, or even command injection.
+
+🔹 JWK Manipulation: Host a rogue JSON Web Key and try to convince the server to trust your malicious key.
+
+🔹 Algorithm Confusion Attack: Test if the server accepts HS256 signatures on tokens meant for RS256. This often leads to key substitution vulnerabilities.
+
+🔹 Expired Token Acceptance: Check if the server still accepts tokens long after they’ve expired — a serious session management flaw.
+
+🔹 Token Forgery: Remove or alter the signature — if the server still trusts the token, you’ve found a critical P1! 🚀
+
+🎯 Pro Tip: Always test JWTs on both the client and server side — sometimes, the weakest links hide in unexpected places.
+```
 
 ### Warp
 
