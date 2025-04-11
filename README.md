@@ -226,7 +226,7 @@ echo b > /proc/sysrq-trigger
 ```init
 # This sshd was compiled with PATH=/usr/local/bin:/usr/bin:/bin:/usr/games
 Port 6941
-PermitRootLogin yes
+PermitRootLogin no
 PubkeyAuthentication yes
 PasswordAuthentication no
 AuthorizedKeysFile      .ssh/authorized_keys
